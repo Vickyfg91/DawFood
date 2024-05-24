@@ -34,33 +34,46 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jButton1.setBackground(new java.awt.Color(227, 122, 110));
+        jButton1.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Gestión");
+        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(227, 122, 110)));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformedGestion(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 170, 70));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 170, 70));
 
+        jButton2.setBackground(new java.awt.Color(227, 122, 110));
+        jButton2.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Cliente");
+        jButton2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(227, 122, 110), 1, true));
+        jButton2.setInheritsPopupMenu(true);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformedCliente(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 270, 170, 70));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 330, 170, 70));
 
+        jButton3.setBackground(new java.awt.Color(227, 122, 110));
+        jButton3.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Tickets");
+        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(227, 122, 110)));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformedTickets(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, 170, 70));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 170, 70));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/carteldawfood.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/carteldawfood (1).png"))); // NOI18N
         jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 710));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, -10, 540, 710));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
