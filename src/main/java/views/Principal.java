@@ -8,7 +8,7 @@ package views;
  *
  * @author vickyfg
  */
-public class Principal extends javax.swing.JFrame {
+public class Principal extends javax.swing.JDialog {
 
     /**
      * Creates new form Principal
@@ -80,10 +80,15 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformedGestion
         // TODO add your handling code here:
+        Administrador a = new Administrador();
+        this.setVisible(false);
+        a.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformedGestion
 
     private void jButton2ActionPerformedCliente(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformedCliente
-        // TODO add your handling code here:
+       Cliente c = new Cliente();
+        this.setVisible(false);
+        c.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformedCliente
 
     private void jButton3ActionPerformedTickets(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedTickets
