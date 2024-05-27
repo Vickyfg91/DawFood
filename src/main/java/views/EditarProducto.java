@@ -4,18 +4,64 @@
  */
 package views;
 
+import entidades.Productos;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
 /**
  *
  * @author Victoria
  */
 public class EditarProducto extends javax.swing.JDialog {
 
+    private Administrador admin;
+    private Productos producto;
+
     /**
      * Creates new form EditarProducto
      */
-    public EditarProducto(java.awt.Frame parent, boolean modal) {
+    public EditarProducto(Administrador parent, boolean modal) {
         super(parent, modal);
+        admin = parent;
         initComponents();
+        mostrarDatosEditar();
+    }
+
+    // Este método privado permite cargar los datos en los componentes
+    // de este jdialog del registro seleccionado en el jtable de la ventana
+    private void mostrarDatosEditar() {
+        // Obtengo el id de la persona seleccionada
+        // Para ello, obtengo la fila seleccionada y luego el id de esa fila
+        int fila = filaSeleccionadaJTable(admin.getJTable());
+        
+        // El id de la persona es el valor de la columna cero de esa fila
+        int id = (int) admin.getJTable().getValueAt(fila, 0);
+        String nombre = (String) admin.getJTable().getValueAt(fila, 1);
+        String fechaNacimiento = (String) admin.getJTable().getValueAt(fila, 2);
+        String grupoSanguineo = (String) admin.getJTable().getValueAt(fila, 3);
+        String rh = (String) admin.getJTable().getValueAt(fila, 4);
+        int numeroDonaciones = (int) admin.getJTable().getValueAt(fila, 5);
+        // Guarda la persona seleccionada
+        this.donante = admin.getListaDonante().getDonante(Integer.toString(id_paciente));
+        // Muestra datos de la persona que se seleccionó en el jtable
+        // en los jtextfield
+        jTextField1.setText(Integer.toString(this.donante.getId_paciente()));
+        jTextField1.setEditable(false); // No editable
+        jTextField1.setBackground(Color.GRAY);
+        jTextField2.setText(this.donante.getNombre());
+        jTextFieldFecNac.setText(this.donante.getFechaNacimiento());
+        jTextFieldGrupSangu.setText(this.donante.getGrupoSanguineo());
+        jTextFieldRH.setText(this.donante.getRh());
+        String textoNumeroDonaciones = Integer.toString(numeroDonaciones);
+        jTextFieldNumDona.setText(textoNumeroDonaciones);
+
+    }
+
+    // Este método permite obtener la fila seleccionada en el JTable
+    private int filaSeleccionadaJTable(JTable jTable1) {
+        int fila = jTable1.getSelectedRow();
+        return fila;
     }
 
     /**
@@ -27,64 +73,238 @@ public class EditarProducto extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jButton7 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabe = new javax.swing.JLabel();
+        jTextFieldNombre = new javax.swing.JTextField();
+        jTextFieldCantidad = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBoxIva = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextFieldStock = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBoxTipoPro = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldDescripcion = new javax.swing.JTextField();
+        jLabe1 = new javax.swing.JLabel();
+        jTextFieldNombre1 = new javax.swing.JTextField();
+        jLabe2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton7.setBackground(new java.awt.Color(115, 172, 178));
+        jButton7.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(246, 235, 198));
+        jButton7.setText("Guardar");
+        jButton7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(123, 169, 171)));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformedGestion(evt);
+            }
+        });
+        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 590, 120, -1));
+
+        jPanel1.setBackground(new java.awt.Color(123, 169, 171));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabe.setBackground(new java.awt.Color(153, 153, 153));
+        jLabe.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabe.setForeground(new java.awt.Color(102, 102, 102));
+        jLabe.setText("Editar producto ");
+        jPanel1.add(jLabe, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 150, -1));
+
+        jTextFieldNombre.setEditable(false);
+        jTextFieldNombre.setBackground(new java.awt.Color(251, 234, 198));
+        jTextFieldNombre.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 190, -1));
+
+        jTextFieldCantidad.setBackground(new java.awt.Color(251, 234, 198));
+        jTextFieldCantidad.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jTextFieldCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 190, -1));
+
+        jLabel5.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel5.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(251, 234, 198));
+        jLabel5.setText("Precio:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 80, 20));
+
+        jComboBoxIva.setBackground(new java.awt.Color(251, 234, 198));
+        jComboBoxIva.setForeground(new java.awt.Color(0, 0, 0));
+        jComboBoxIva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "4", "10", "21" }));
+        jPanel1.add(jComboBoxIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 240, -1, -1));
+
+        jLabel6.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel6.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(251, 234, 198));
+        jLabel6.setText("Iva:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 80, 20));
+
+        jLabel7.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel7.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(251, 234, 198));
+        jLabel7.setText("Stock:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 80, 20));
+
+        jTextFieldStock.setEditable(false);
+        jTextFieldStock.setBackground(new java.awt.Color(251, 234, 198));
+        jTextFieldStock.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jTextFieldStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 190, -1));
+
+        jLabel8.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel8.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(251, 234, 198));
+        jLabel8.setText("Tipo:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 80, 20));
+
+        jComboBoxTipoPro.setBackground(new java.awt.Color(251, 234, 198));
+        jComboBoxTipoPro.setForeground(new java.awt.Color(0, 0, 0));
+        jComboBoxTipoPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Comida", "Bebida", "Postre" }));
+        jPanel1.add(jComboBoxTipoPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, -1, -1));
+
+        jLabel3.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(251, 234, 198));
+        jLabel3.setText("Descripición:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 140, 20));
+
+        jTextFieldDescripcion.setBackground(new java.awt.Color(251, 234, 198));
+        jTextFieldDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jTextFieldDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 190, -1));
+
+        jLabe1.setBackground(new java.awt.Color(153, 153, 153));
+        jLabe1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabe1.setForeground(new java.awt.Color(251, 234, 198));
+        jLabe1.setText("Id:");
+        jPanel1.add(jLabe1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 80, -1));
+
+        jTextFieldNombre1.setBackground(new java.awt.Color(251, 234, 198));
+        jTextFieldNombre1.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jTextFieldNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 190, -1));
+
+        jLabe2.setBackground(new java.awt.Color(153, 153, 153));
+        jLabe2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabe2.setForeground(new java.awt.Color(251, 234, 198));
+        jLabe2.setText("Nombre:");
+        jPanel1.add(jLabe2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 80, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 390, 460));
+
+        jButton1.setBackground(new java.awt.Color(246, 235, 198));
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
+        jButton1.setText("Atrás");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 640, 100, -1));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/5.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 490, 710));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton7ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformedGestion
+        // Guardo en la persona seleccionada los cambios de los jtextfield
+        this.prod.setNombre(jTextField2.getText());
+        this.donante.setFechaNacimiento(jTextFieldFecNac.getText());
+        this.donante.setGrupoSanguineo(jTextFieldGrupSangu.getText());
+        this.donante.setRh(jTextFieldRH.getText());
+        this.donante.setNumeroDonaciones(Integer.parseInt(jTextFieldNumDona.getText()));
+
+        // En este punto también se podrían guardar los cambios en un 
+        // fichero o en una BD
+        // Cierro el dialogo
+        this.dispose();
+        JOptionPane.showMessageDialog(null, "Registro modificado correctamente");
+    }
+    }//GEN-LAST:event_jButton7ActionPerformedGestion
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Principal p = new Principal();
+        this.setVisible(false);
+        p.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                EditarProducto dialog = new EditarProducto(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//
+//}
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(EditarProducto.class  
+//
+//.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//
+//} catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(EditarProducto.class  
+//
+//.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//
+//} catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(EditarProducto.class  
+//
+//.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//
+//} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(EditarProducto.class  
+//
+//.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the dialog */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                EditarProducto dialog = new EditarProducto(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox<String> jComboBoxIva;
+    private javax.swing.JComboBox<String> jComboBoxTipoPro;
+    private javax.swing.JLabel jLabe;
+    private javax.swing.JLabel jLabe1;
+    private javax.swing.JLabel jLabe2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextFieldCantidad;
+    private javax.swing.JTextField jTextFieldDescripcion;
+    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField jTextFieldNombre1;
+    private javax.swing.JTextField jTextFieldStock;
     // End of variables declaration//GEN-END:variables
 }

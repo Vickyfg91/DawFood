@@ -20,6 +20,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         tpv = auxiliar.TareasCrud.inicializaTpv(154);
         initComponents();
+        
     }
 
     /**
