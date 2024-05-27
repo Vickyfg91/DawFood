@@ -4,19 +4,74 @@
  */
 package views;
 
+import auxiliar.ListaProductos;
+import auxiliar.ModeloTabla;
+import entidades.Productos;
+import java.util.List;
+import javax.swing.JTable;
+
 /**
  *
  * @author vickyfg
  */
 public class Administrador extends javax.swing.JDialog {
 
+    private Principal principal;
+    private ListaProductos lista;
+
     /**
      * Creates new form Administrador
      */
-    public Administrador() {
+    public Administrador(Principal parent, boolean model) {
+        super(parent, model);
+        principal = parent;
+        lista = new ListaProductos();
         initComponents();
+        cargarDatosJTable();
     }
 
+    // Este método inserta los datos de la lista en el jtable
+    private void cargarDatosJTable() {
+
+        // Se crea el modelo de datos que contendrá el JTable
+        // Este modelo se rellena de datos y luego se asocia al JTable
+        ModeloTabla modelo = new ModeloTabla();
+
+        // Array de object con el número de columnas del jtable
+        // Para guardar cada campo de cada Persona de la lista
+        Object[] fila = new Object[modelo.getColumnCount()];
+
+        // Iteramos por la lista y asignamos a
+        // cada celda del array el valor del atributo de esa persona
+        for (int i = 0; i < lista.getLista().size(); i++) {
+            fila[0] = lista.getLista().get(i).getIdProducto();
+            fila[1] = lista.getLista().get(i).getNombreProducto();
+            fila[2] = lista.getLista().get(i).getPrecioProducto();
+            fila[3] = lista.getLista().get(i).getIvaProducto();
+            fila[4] = lista.getLista().get(i).getStockProducto();
+            fila[5] =  lista.getLista().get(i).getIdTipo().getCategoria();
+            fila[6] =  lista.getLista().get(i).getDescripcionProducto();
+            
+            // Agregamos esta fila a nuestro modelo
+            modelo.addRow(fila);
+        } // Al finalizar el bucle el modelo tendrá tantas filas como nuestra lista
+
+        // Decimos al JTable el modelo a usar
+        jTable1.setModel(modelo);
+
+    }
+
+    public ListaProductos getLista() {
+        return lista;
+    }
+    
+    // Método para obtener el jtable del formulario
+    // desde el diálogo
+    public JTable getJTable() {
+        return this.jTable1;
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,6 +140,8 @@ public class Administrador extends javax.swing.JDialog {
         });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 550, 80, 30));
 
+        jTable1.setBackground(new java.awt.Color(255, 153, 153));
+        jTable1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 204), 1, true));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},

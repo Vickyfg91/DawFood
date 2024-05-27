@@ -4,16 +4,21 @@
  */
 package views;
 
+import entidades.Tpv;
+
 /**
  *
  * @author vickyfg
  */
 public class Principal extends javax.swing.JFrame {
 
+    private Tpv tpv;
+
     /**
      * Creates new form Principal
      */
     public Principal() {
+        tpv = auxiliar.TareasCrud.inicializaTpv(154);
         initComponents();
     }
 
@@ -29,6 +34,7 @@ public class Principal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,14 +68,26 @@ public class Principal extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(227, 122, 110));
         jButton3.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
         jButton3.setForeground(new java.awt.Color(0, 0, 0));
-        jButton3.setText("Tickets");
+        jButton3.setText("Salir");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(227, 122, 110)));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformedTickets(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 170, 70));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 600, 80, 40));
+
+        jButton4.setBackground(new java.awt.Color(227, 122, 110));
+        jButton4.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(0, 0, 0));
+        jButton4.setText("Tickets");
+        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(227, 122, 110)));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformedTickets(evt);
+            }
+        });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 170, 70));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/carteldawfood (1).png"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -80,20 +98,20 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformedGestion
         // TODO add your handling code here:
-        Administrador a = new Administrador();
-        this.setVisible(false);
-        a.setVisible(true);
+        new Administrador(this, true).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformedGestion
 
     private void jButton2ActionPerformedCliente(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformedCliente
-       Cliente c = new Cliente();
-        this.setVisible(false);
-        c.setVisible(true);
+        new Cliente().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformedCliente
 
     private void jButton3ActionPerformedTickets(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedTickets
-        // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_jButton3ActionPerformedTickets
+
+    private void jButton4ActionPerformedTickets(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformedTickets
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformedTickets
 
     /**
      * @param args the command line arguments
@@ -134,6 +152,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

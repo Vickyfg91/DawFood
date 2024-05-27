@@ -9,6 +9,8 @@ import controladores.TpvJpaController;
 import controladores.exceptions.IllegalOrphanException;
 import controladores.exceptions.NonexistentEntityException;
 import entidades.Productos;
+import entidades.Tpv;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -22,7 +24,7 @@ public class TareasCrud {
     private static final EntityManagerFactory crud = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
     private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(crud);
     private static final TpvJpaController tpvJpa = new TpvJpaController(crud);
-       
+    
     //Método para incluir un producto en la 
     public static void incluirProducto(Productos nuevoProducto) throws Exception{
         proJpa.create(nuevoProducto);
@@ -48,6 +50,10 @@ public class TareasCrud {
         return proJpa.findProductos(id);
     }
     
+    //Método para inicializar el tpv
+    public static Tpv inicializaTpv(int id){
+        return tpvJpa.findTpv(id);
+    }
     
     
     

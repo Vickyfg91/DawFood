@@ -10,6 +10,7 @@ package views;
  */
 public class Cliente extends javax.swing.JDialog {
 
+    private Principal padre;
     /**
      * Creates new form Cliente
      */
