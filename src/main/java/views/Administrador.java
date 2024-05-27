@@ -26,43 +26,33 @@ public class Administrador extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setBackground(new java.awt.Color(227, 122, 110));
-        jButton1.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("Añadir");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(227, 122, 110)));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformedGestion(evt);
-            }
-        });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 610, 120, 50));
-
         jButton2.setBackground(new java.awt.Color(227, 122, 110));
-        jButton2.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         jButton2.setForeground(new java.awt.Color(0, 0, 0));
-        jButton2.setText("Editar");
+        jButton2.setText("Nuevo PRODUCTO");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(227, 122, 110)));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformedGestion(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 610, 120, 50));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 590, 240, 30));
 
         jButton3.setBackground(new java.awt.Color(227, 122, 110));
-        jButton3.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Borrar");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(227, 122, 110)));
@@ -71,7 +61,29 @@ public class Administrador extends javax.swing.JDialog {
                 jButton3ActionPerformedGestion(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 610, 110, 50));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 550, 90, 30));
+
+        jButton1.setBackground(new java.awt.Color(246, 235, 198));
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
+        jButton1.setText("Atrás");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 640, 100, -1));
+
+        jButton4.setBackground(new java.awt.Color(227, 122, 110));
+        jButton4.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(0, 0, 0));
+        jButton4.setText("Editar");
+        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(227, 122, 110)));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformedGestion(evt);
+            }
+        });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 550, 80, 30));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -86,13 +98,17 @@ public class Administrador extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Elija una opción para productos:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 570, 380, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 440, -1));
+
+        jPanel1.setBackground(new java.awt.Color(246, 235, 198));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 510, 460, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/5.png"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -101,18 +117,25 @@ public class Administrador extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformedGestion
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jButton1ActionPerformedGestion
-
     private void jButton2ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformedGestion
-
+        CrearNuevoProducto crearP = new CrearNuevoProducto();
+        this.setVisible(false);
+        crearP.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformedGestion
 
     private void jButton3ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedGestion
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformedGestion
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Principal p = new Principal();
+        this.setVisible(false);
+        p.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformedGestion
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformedGestion
 
     /**
      * @param args the command line arguments
@@ -160,8 +183,10 @@ public class Administrador extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

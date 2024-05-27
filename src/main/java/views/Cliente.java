@@ -14,7 +14,7 @@ public class Cliente extends javax.swing.JDialog {
      * Creates new form Cliente
      */
     public Cliente() {
-       
+
         initComponents();
     }
 
@@ -39,7 +39,7 @@ public class Cliente extends javax.swing.JDialog {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton2.setBackground(new java.awt.Color(115, 172, 178));
-        jButton2.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         jButton2.setForeground(new java.awt.Color(246, 235, 198));
         jButton2.setText("Atrás");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(123, 169, 171)));
@@ -48,7 +48,7 @@ public class Cliente extends javax.swing.JDialog {
                 jButton2ActionPerformedGestion(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 570, 150, 50));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 640, 90, 30));
 
         jButton4.setBackground(new java.awt.Color(227, 122, 110));
         jButton4.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
@@ -121,12 +121,15 @@ public class Cliente extends javax.swing.JDialog {
         Principal p = new Principal();
         this.setVisible(false);
         p.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformedGestion
 
     private void jButton3ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedGestion
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformedGestion
+        MostrarProducto mostrarComida = new MostrarProducto();
+        this.setVisible(false);
+        mostrarComida.setVisible(true);
+
+     }//GEN-LAST:event_jButton3ActionPerformedGestion
 
     private void jButton4ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformedGestion
         // TODO add your handling code here:

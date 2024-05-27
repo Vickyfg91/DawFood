@@ -8,7 +8,7 @@ package views;
  *
  * @author vickyfg
  */
-public class Principal extends javax.swing.JDialog {
+public class Principal extends javax.swing.JFrame {
 
     /**
      * Creates new form Principal
