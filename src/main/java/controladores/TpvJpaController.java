@@ -6,7 +6,6 @@ package controladores;
 
 import controladores.exceptions.IllegalOrphanException;
 import controladores.exceptions.NonexistentEntityException;
-import controladores.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -35,7 +34,7 @@ public class TpvJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Tpv tpv) throws PreexistingEntityException, Exception {
+    public void create(Tpv tpv) {
         if (tpv.getTicketsCollection() == null) {
             tpv.setTicketsCollection(new ArrayList<Tickets>());
         }
@@ -60,11 +59,6 @@ public class TpvJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findTpv(tpv.getIdTpv()) != null) {
-                throw new PreexistingEntityException("Tpv " + tpv + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();

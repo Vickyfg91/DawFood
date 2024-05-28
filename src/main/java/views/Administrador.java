@@ -4,10 +4,7 @@
  */
 package views;
 
-import auxiliar.ListaProductos;
 import auxiliar.ModeloTabla;
-import entidades.Productos;
-import java.util.List;
 import javax.swing.JTable;
 
 /**
@@ -175,9 +172,8 @@ public class Administrador extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformedGestion
-        CrearNuevoProducto crearP = new CrearNuevoProducto();
-        this.setVisible(false);
-        crearP.setVisible(true);
+        new CrearNuevoProducto(this, true).setVisible(true);
+        
     }//GEN-LAST:event_jButton2ActionPerformedGestion
 
     private void jButton3ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedGestion
@@ -185,9 +181,7 @@ public class Administrador extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton3ActionPerformedGestion
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Principal p = new Principal();
-        this.setVisible(false);
-        p.setVisible(true);
+        new Principal().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformedGestion

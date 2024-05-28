@@ -25,9 +25,6 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author vickyfg
  */
-
-// Proporciona métodos para realizar operaciones CRUD y consultas adicionales.
-
 public class ProductosJpaController implements Serializable {
 
     public ProductosJpaController(EntityManagerFactory emf) {
@@ -39,7 +36,6 @@ public class ProductosJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    // Método que recibe un producto y lo crea en la base de datos 
     public void create(Productos productos) throws PreexistingEntityException, Exception {
         if (productos.getDetalleTicketCollection() == null) {
             productos.setDetalleTicketCollection(new ArrayList<DetalleTicket>());
@@ -48,16 +44,11 @@ public class ProductosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            
-            //Controla y maneja que tipo de producto esta añadiendo
-            
             TiposProductos idTipo = productos.getIdTipo();
             if (idTipo != null) {
                 idTipo = em.getReference(idTipo.getClass(), idTipo.getIdTipo());
                 productos.setIdTipo(idTipo);
             }
-            
-            // COntrola la relación con DetalleTicket
             Collection<DetalleTicket> attachedDetalleTicketCollection = new ArrayList<DetalleTicket>();
             for (DetalleTicket detalleTicketCollectionDetalleTicketToAttach : productos.getDetalleTicketCollection()) {
                 detalleTicketCollectionDetalleTicketToAttach = em.getReference(detalleTicketCollectionDetalleTicketToAttach.getClass(), detalleTicketCollectionDetalleTicketToAttach.getDetalleTicketPK());
@@ -79,11 +70,9 @@ public class ProductosJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-            
-            //COntrola que no exita y se duplique 
         } catch (Exception ex) {
             if (findProductos(productos.getIdProducto()) != null) {
-                throw new PreexistingEntityException("Producto " + productos + " ya existe.", ex);
+                throw new PreexistingEntityException("Productos " + productos + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -92,17 +81,13 @@ public class ProductosJpaController implements Serializable {
             }
         }
     }
-    //Método que recibe un producto y lo edita en la base de datos
+
     public void edit(Productos productos) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Productos persistentProductos = em.find(Productos.class, productos.getIdProducto());
-            
-            //Controla las relaciones con el tipo producto y el detalle ticket
-            
             TiposProductos idTipoOld = persistentProductos.getIdTipo();
             TiposProductos idTipoNew = productos.getIdTipo();
             Collection<DetalleTicket> detalleTicketCollectionOld = persistentProductos.getDetalleTicketCollection();
@@ -113,8 +98,7 @@ public class ProductosJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-
-                    illegalOrphanMessages.add("Debes conservar DetalleTicket " + detalleTicketCollectionOldDetalleTicket + " ya que su campo productos no puede ser nulo.");
+                    illegalOrphanMessages.add("You must retain DetalleTicket " + detalleTicketCollectionOldDetalleTicket + " since its productos field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -249,16 +233,6 @@ public class ProductosJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
-    
-    // Método añadido, usando una named query de la entidad producto
-    public Productos findByTipo(String tipo){
-        EntityManager em = getEntityManager();
-        // Se crea la query usando el nombre de la named query
-        Query q = em.createNamedQuery("Productos.findByTipo");
-        // Se establece el parámetro de la consulta
-        q.setParameter("tipo", tipo);
-        return (Productos)q.getSingleResult();
     }
     
 }

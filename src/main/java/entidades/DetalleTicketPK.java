@@ -22,17 +22,13 @@ public class DetalleTicketPK implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_ticket")
     private int idTicket;
-    @Basic(optional = false)
-    @Column(name = "cantidad_producto")
-    private int cantidadProducto;
 
     public DetalleTicketPK() {
     }
 
-    public DetalleTicketPK(int idProducto, int idTicket, int cantidadProducto) {
+    public DetalleTicketPK(int idProducto, int idTicket) {
         this.idProducto = idProducto;
         this.idTicket = idTicket;
-        this.cantidadProducto = cantidadProducto;
     }
 
     public int getIdProducto() {
@@ -51,20 +47,11 @@ public class DetalleTicketPK implements Serializable {
         this.idTicket = idTicket;
     }
 
-    public int getCantidadProducto() {
-        return cantidadProducto;
-    }
-
-    public void setCantidadProducto(int cantidadProducto) {
-        this.cantidadProducto = cantidadProducto;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) idProducto;
         hash += (int) idTicket;
-        hash += (int) cantidadProducto;
         return hash;
     }
 
@@ -81,15 +68,12 @@ public class DetalleTicketPK implements Serializable {
         if (this.idTicket != other.idTicket) {
             return false;
         }
-        if (this.cantidadProducto != other.cantidadProducto) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "entidades.DetalleTicketPK[ idProducto=" + idProducto + ", idTicket=" + idTicket + ", cantidadProducto=" + cantidadProducto + " ]";
+        return "entidades.DetalleTicketPK[ idProducto=" + idProducto + ", idTicket=" + idTicket + " ]";
     }
     
 }

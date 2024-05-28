@@ -5,6 +5,8 @@
 package entidades;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -23,12 +25,15 @@ import javax.persistence.Table;
     @NamedQuery(name = "DetalleTicket.findAll", query = "SELECT d FROM DetalleTicket d"),
     @NamedQuery(name = "DetalleTicket.findByIdProducto", query = "SELECT d FROM DetalleTicket d WHERE d.detalleTicketPK.idProducto = :idProducto"),
     @NamedQuery(name = "DetalleTicket.findByIdTicket", query = "SELECT d FROM DetalleTicket d WHERE d.detalleTicketPK.idTicket = :idTicket"),
-    @NamedQuery(name = "DetalleTicket.findByCantidadProducto", query = "SELECT d FROM DetalleTicket d WHERE d.detalleTicketPK.cantidadProducto = :cantidadProducto")})
+    @NamedQuery(name = "DetalleTicket.findByCantidadProducto", query = "SELECT d FROM DetalleTicket d WHERE d.cantidadProducto = :cantidadProducto")})
 public class DetalleTicket implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected DetalleTicketPK detalleTicketPK;
+    @Basic(optional = false)
+    @Column(name = "cantidad_producto")
+    private int cantidadProducto;
     @JoinColumn(name = "id_producto", referencedColumnName = "id_producto", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Productos productos;
@@ -43,8 +48,13 @@ public class DetalleTicket implements Serializable {
         this.detalleTicketPK = detalleTicketPK;
     }
 
-    public DetalleTicket(int idProducto, int idTicket, int cantidadProducto) {
-        this.detalleTicketPK = new DetalleTicketPK(idProducto, idTicket, cantidadProducto);
+    public DetalleTicket(DetalleTicketPK detalleTicketPK, int cantidadProducto) {
+        this.detalleTicketPK = detalleTicketPK;
+        this.cantidadProducto = cantidadProducto;
+    }
+
+    public DetalleTicket(int idProducto, int idTicket) {
+        this.detalleTicketPK = new DetalleTicketPK(idProducto, idTicket);
     }
 
     public DetalleTicketPK getDetalleTicketPK() {
@@ -53,6 +63,14 @@ public class DetalleTicket implements Serializable {
 
     public void setDetalleTicketPK(DetalleTicketPK detalleTicketPK) {
         this.detalleTicketPK = detalleTicketPK;
+    }
+
+    public int getCantidadProducto() {
+        return cantidadProducto;
+    }
+
+    public void setCantidadProducto(int cantidadProducto) {
+        this.cantidadProducto = cantidadProducto;
     }
 
     public Productos getProductos() {

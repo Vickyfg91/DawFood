@@ -6,6 +6,7 @@ package views;
 
 import entidades.Productos;
 import java.awt.Color;
+import java.math.BigDecimal;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -31,14 +32,18 @@ public class EditarProducto extends javax.swing.JDialog {
     // Este método privado permite cargar los datos en los componentes
     // de este jdialog del registro seleccionado en el jtable de la ventana
     private void mostrarDatosEditar() {
+        //try{}
+            BigDecimal precio = new BigDecimal(1);
+               // if()
         // Obtengo el id de la persona seleccionada
         // Para ello, obtengo la fila seleccionada y luego el id de esa fila
         int fila = filaSeleccionadaJTable(admin.getJTable());
         
-        // El id de la persona es el valor de la columna cero de esa fila
+        // El id del producto es el valor de la columna cero de esa fila
         int id = (int) admin.getJTable().getValueAt(fila, 0);
-        String nombre = (String) admin.getJTable().getValueAt(fila, 1);
-        String fechaNacimiento = (String) admin.getJTable().getValueAt(fila, 2);
+        String nombreProducto = (String) admin.getJTable().getValueAt(fila, 1);
+        BigDecimal precio = (String) admin.getJTable().getValueAt(fila, 2);
+        BigDecimal ivaProducto = (String) admin.getJTable().getValueAt(fila, 2);
         String grupoSanguineo = (String) admin.getJTable().getValueAt(fila, 3);
         String rh = (String) admin.getJTable().getValueAt(fila, 4);
         int numeroDonaciones = (int) admin.getJTable().getValueAt(fila, 5);
@@ -76,8 +81,8 @@ public class EditarProducto extends javax.swing.JDialog {
         jButton7 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabe = new javax.swing.JLabel();
-        jTextFieldNombre = new javax.swing.JTextField();
-        jTextFieldCantidad = new javax.swing.JTextField();
+        jTextFieldId = new javax.swing.JTextField();
+        jTextFieldPrecio = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jComboBoxIva = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -88,7 +93,7 @@ public class EditarProducto extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldDescripcion = new javax.swing.JTextField();
         jLabe1 = new javax.swing.JLabel();
-        jTextFieldNombre1 = new javax.swing.JTextField();
+        jTextFieldNombre = new javax.swing.JTextField();
         jLabe2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -117,14 +122,14 @@ public class EditarProducto extends javax.swing.JDialog {
         jLabe.setText("Editar producto ");
         jPanel1.add(jLabe, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 150, -1));
 
-        jTextFieldNombre.setEditable(false);
-        jTextFieldNombre.setBackground(new java.awt.Color(251, 234, 198));
-        jTextFieldNombre.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 190, -1));
+        jTextFieldId.setEditable(false);
+        jTextFieldId.setBackground(new java.awt.Color(251, 234, 198));
+        jTextFieldId.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jTextFieldId, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 190, -1));
 
-        jTextFieldCantidad.setBackground(new java.awt.Color(251, 234, 198));
-        jTextFieldCantidad.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel1.add(jTextFieldCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 190, -1));
+        jTextFieldPrecio.setBackground(new java.awt.Color(251, 234, 198));
+        jTextFieldPrecio.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jTextFieldPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 190, -1));
 
         jLabel5.setBackground(new java.awt.Color(153, 153, 153));
         jLabel5.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -181,9 +186,9 @@ public class EditarProducto extends javax.swing.JDialog {
         jLabe1.setText("Id:");
         jPanel1.add(jLabe1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 80, -1));
 
-        jTextFieldNombre1.setBackground(new java.awt.Color(251, 234, 198));
-        jTextFieldNombre1.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel1.add(jTextFieldNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 190, -1));
+        jTextFieldNombre.setBackground(new java.awt.Color(251, 234, 198));
+        jTextFieldNombre.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 190, -1));
 
         jLabe2.setBackground(new java.awt.Color(153, 153, 153));
         jLabe2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -301,10 +306,10 @@ public class EditarProducto extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextFieldCantidad;
     private javax.swing.JTextField jTextFieldDescripcion;
+    private javax.swing.JTextField jTextFieldId;
     private javax.swing.JTextField jTextFieldNombre;
-    private javax.swing.JTextField jTextFieldNombre1;
+    private javax.swing.JTextField jTextFieldPrecio;
     private javax.swing.JTextField jTextFieldStock;
     // End of variables declaration//GEN-END:variables
 }

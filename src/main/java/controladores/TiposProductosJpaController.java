@@ -6,7 +6,6 @@ package controladores;
 
 import controladores.exceptions.IllegalOrphanException;
 import controladores.exceptions.NonexistentEntityException;
-import controladores.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -35,7 +34,7 @@ public class TiposProductosJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(TiposProductos tiposProductos) throws PreexistingEntityException, Exception {
+    public void create(TiposProductos tiposProductos) {
         if (tiposProductos.getProductosCollection() == null) {
             tiposProductos.setProductosCollection(new ArrayList<Productos>());
         }
@@ -60,11 +59,6 @@ public class TiposProductosJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findTiposProductos(tiposProductos.getIdTipo()) != null) {
-                throw new PreexistingEntityException("TiposProductos " + tiposProductos + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();

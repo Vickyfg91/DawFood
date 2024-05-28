@@ -13,14 +13,12 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
     /**
      * Creates new form CrearNuevoProducto
      */
-    public CrearNuevoProducto(java.awt.Frame parent, boolean modal) {
+    public CrearNuevoProducto(Administrador parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
 
-    CrearNuevoProducto() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

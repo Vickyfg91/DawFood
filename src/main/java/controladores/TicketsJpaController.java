@@ -6,7 +6,6 @@ package controladores;
 
 import controladores.exceptions.IllegalOrphanException;
 import controladores.exceptions.NonexistentEntityException;
-import controladores.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -36,7 +35,7 @@ public class TicketsJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Tickets tickets) throws PreexistingEntityException, Exception {
+    public void create(Tickets tickets) {
         if (tickets.getDetalleTicketCollection() == null) {
             tickets.setDetalleTicketCollection(new ArrayList<DetalleTicket>());
         }
@@ -70,11 +69,6 @@ public class TicketsJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findTickets(tickets.getIdTicket()) != null) {
-                throw new PreexistingEntityException("Tickets " + tickets + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();

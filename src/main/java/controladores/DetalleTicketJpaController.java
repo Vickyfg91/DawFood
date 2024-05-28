@@ -38,8 +38,8 @@ public class DetalleTicketJpaController implements Serializable {
         if (detalleTicket.getDetalleTicketPK() == null) {
             detalleTicket.setDetalleTicketPK(new DetalleTicketPK());
         }
-        detalleTicket.getDetalleTicketPK().setIdProducto(detalleTicket.getProductos().getIdProducto());
         detalleTicket.getDetalleTicketPK().setIdTicket(detalleTicket.getTickets().getIdTicket());
+        detalleTicket.getDetalleTicketPK().setIdProducto(detalleTicket.getProductos().getIdProducto());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -77,8 +77,8 @@ public class DetalleTicketJpaController implements Serializable {
     }
 
     public void edit(DetalleTicket detalleTicket) throws NonexistentEntityException, Exception {
-        detalleTicket.getDetalleTicketPK().setIdProducto(detalleTicket.getProductos().getIdProducto());
         detalleTicket.getDetalleTicketPK().setIdTicket(detalleTicket.getTickets().getIdTicket());
+        detalleTicket.getDetalleTicketPK().setIdProducto(detalleTicket.getProductos().getIdProducto());
         EntityManager em = null;
         try {
             em = getEntityManager();

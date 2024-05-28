@@ -49,7 +49,7 @@ public class Productos implements Serializable {
     private BigDecimal precioProducto;
     @Basic(optional = false)
     @Column(name = "iva_producto")
-    private BigDecimal ivaProducto;
+    private int ivaProducto;
     @Basic(optional = false)
     @Column(name = "stock_producto")
     private int stockProducto;
@@ -68,7 +68,7 @@ public class Productos implements Serializable {
         this.idProducto = idProducto;
     }
 
-    public Productos(Integer idProducto, String nombreProducto, BigDecimal precioProducto, BigDecimal ivaProducto, int stockProducto) {
+    public Productos(Integer idProducto, String nombreProducto, BigDecimal precioProducto, int ivaProducto, int stockProducto) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.precioProducto = precioProducto;
@@ -100,11 +100,11 @@ public class Productos implements Serializable {
         this.precioProducto = precioProducto;
     }
 
-    public BigDecimal getIvaProducto() {
+    public int getIvaProducto() {
         return ivaProducto;
     }
 
-    public void setIvaProducto(BigDecimal ivaProducto) {
+    public void setIvaProducto(int ivaProducto) {
         this.ivaProducto = ivaProducto;
     }
 
