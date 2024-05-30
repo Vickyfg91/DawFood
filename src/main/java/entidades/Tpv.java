@@ -52,7 +52,10 @@ public class Tpv implements Serializable {
     @Column(name = "tpv_hora")
     @Temporal(TemporalType.TIME)
     private Date tpvHora;
+    
+    // Indica que un punto de venta puede tener muchos tickets asociados
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTpv")
+    // Collection contiene la instancias de la clase Tickets.
     private Collection<Tickets> ticketsCollection;
 
     public Tpv() {

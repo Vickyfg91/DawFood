@@ -59,9 +59,15 @@ public class Tickets implements Serializable {
     @Basic(optional = false)
     @Column(name = "cod_transaccion")
     private int codTransaccion;
+    //Indica que un ticket puede tener muchos detalles de ticket asociados.
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tickets")
+    // Esta relacion contiene instancias de la clase DetalleTicket 
     private Collection<DetalleTicket> detalleTicketCollection;
+    
+    // Esta relacion representada pro idtpv que es una instancia de la clase Tpv
     @JoinColumn(name = "id_tpv", referencedColumnName = "id_tpv")
+    // Indica que muchos tickets pueden estar asociados a un unico TPV pero
+    // que un ticket pertenece a un único TPV.
     @ManyToOne(optional = false)
     private Tpv idTpv;
 

@@ -4,7 +4,20 @@
  */
 package views;
 
-import auxiliar.ModeloTabla;
+import controladores.ProductosJpaController;
+import controladores.TiposProductosJpaController;
+import controladores.TpvJpaController;
+import controladores.exceptions.IllegalOrphanException;
+import controladores.exceptions.NonexistentEntityException;
+import dawfood.ModeloTabla;
+import entidades.Productos;
+import entidades.TiposProductos;
+import entidades.Tpv;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.JTable;
 
 /**
@@ -13,8 +26,12 @@ import javax.swing.JTable;
  */
 public class Administrador extends javax.swing.JDialog {
 
+    private static final EntityManagerFactory crud = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
+    private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(crud);
+    private static final TiposProductosJpaController tpJpa = new controladores.TiposProductosJpaController(crud);
+    private static final TpvJpaController tpvJpa = new TpvJpaController(crud);
     private Principal principal;
-    private ListaProductos lista;
+    private List<Productos> lista = new ArrayList<>();
 
     /**
      * Creates new form Administrador
@@ -22,11 +39,55 @@ public class Administrador extends javax.swing.JDialog {
     public Administrador(Principal parent, boolean model) {
         super(parent, model);
         principal = parent;
-        lista = new ListaProductos();
+        lista = proJpa.findProductosEntities();
         initComponents();
         cargarDatosJTable();
     }
 
+    public List<Productos> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<Productos> lista) {
+        this.lista = lista;
+    }
+
+    public static List<Productos> crearListaProducto() {
+        return proJpa.findProductosEntities();
+    }
+
+    //Método para incluir un producto en la 
+    public static void incluirProducto(Productos nuevoProducto) throws Exception {
+        proJpa.create(nuevoProducto);
+    }
+
+    //Método que recibe un int id para eliminar un producto de la bbdd
+    public static void borrarProducto(int id) throws NonexistentEntityException, IllegalOrphanException {
+        proJpa.destroy(id);
+    }
+
+    //Método que recibe un producto y usa el método edit para modificarlo
+    public static void editarProducto(Productos productos) throws NonexistentEntityException, Exception {
+        proJpa.edit(productos);
+    }
+
+    //Método que recibe una id y usa el método find para buscar por id
+    public static Productos buscarPordId(int id) {
+        return proJpa.findProductos(id);
+    }
+
+    //Método para buscar el nombre de tipo categoria producto 
+     public TiposProductos buscarTipoProductoPorNombre(String nombreTipoProducto) {
+        try {
+            Query query = tpJpa.createNamedQuery("TiposProductos.findByCategoria");
+            query.setParameter("categoria", nombreTipoProducto);
+            return (TiposProductos) query.getSingleResult();
+        } catch (Exception e) {
+            // Manejo de excepciones en caso de que no se encuentre el tipo de producto
+            // Puedes retornar null o lanzar una excepción personalizada, dependiendo de tu lógica de negocio
+            return null;
+        }
+    }
     // Este método inserta los datos de la lista en el jtable
     private void cargarDatosJTable() {
 
@@ -35,40 +96,36 @@ public class Administrador extends javax.swing.JDialog {
         ModeloTabla modelo = new ModeloTabla();
 
         // Array de object con el número de columnas del jtable
-        // Para guardar cada campo de cada Persona de la lista
+        // Para guardar cada campo de cada producto de la lista
         Object[] fila = new Object[modelo.getColumnCount()];
 
         // Iteramos por la lista y asignamos a
-        // cada celda del array el valor del atributo de esa persona
-        for (int i = 0; i < lista.getLista().size(); i++) {
-            fila[0] = lista.getLista().get(i).getIdProducto();
-            fila[1] = lista.getLista().get(i).getNombreProducto();
-            fila[2] = lista.getLista().get(i).getPrecioProducto();
-            fila[3] = lista.getLista().get(i).getIvaProducto();
-            fila[4] = lista.getLista().get(i).getStockProducto();
-            fila[5] =  lista.getLista().get(i).getIdTipo().getCategoria();
-            fila[6] =  lista.getLista().get(i).getDescripcionProducto();
-            
-            // Agregamos esta fila a nuestro modelo
+        // cada celda del array el valor del atributos del producto
+        for (Productos producto : lista) {
+            fila[0] = producto.getIdProducto();
+            fila[1] = producto.getNombreProducto();
+            fila[2] = producto.getPrecioProducto();
+            fila[3] = producto.getIvaProducto();
+            fila[4] = producto.getStockProducto();
+            fila[5] = producto.getIdTipo().getCategoria();
+            fila[6] = producto.getDescripcionProducto();
             modelo.addRow(fila);
-        } // Al finalizar el bucle el modelo tendrá tantas filas como nuestra lista
+        }
+        // Agregamos esta fila a nuestro modelo
+        modelo.addRow(fila);
+        // Al finalizar el bucle el modelo tendrá tantas filas como nuestra lista
 
         // Decimos al JTable el modelo a usar
         jTable1.setModel(modelo);
 
     }
 
-    public ListaProductos getLista() {
-        return lista;
-    }
-    
     // Método para obtener el jtable del formulario
     // desde el diálogo
     public JTable getJTable() {
         return this.jTable1;
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -173,7 +230,7 @@ public class Administrador extends javax.swing.JDialog {
 
     private void jButton2ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformedGestion
         new CrearNuevoProducto(this, true).setVisible(true);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformedGestion
 
     private void jButton3ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedGestion
@@ -185,50 +242,10 @@ public class Administrador extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformedGestion
-        // TODO add your handling code here:
+         new EditarProducto(this, true).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformedGestion
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(Administrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(Administrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(Administrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(Administrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                Administrador dialog = new Administrador(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

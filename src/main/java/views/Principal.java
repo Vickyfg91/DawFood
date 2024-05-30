@@ -4,16 +4,6 @@
  */
 package views;
 
-import controladores.ProductosJpaController;
-import controladores.TpvJpaController;
-import controladores.exceptions.IllegalOrphanException;
-import controladores.exceptions.NonexistentEntityException;
-import entidades.Productos;
-import entidades.Tpv;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
@@ -21,52 +11,17 @@ import javax.persistence.Persistence;
  */
 public class Principal extends javax.swing.JFrame {
 
-    private static final EntityManagerFactory crud = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
-    private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(crud);
-    private static final TpvJpaController tpvJpa = new TpvJpaController(crud);
-
-    //private Tpv tpv;
+   
     /**
      * Creates new form Principal
      */
     public Principal() {
-        // tpv = inicializaTpv(154);
+        
         initComponents();
-        lista = proJpa.findProductosEntities();
+       
 
     }
-    private List<Productos> lista = new ArrayList<>();
-    
-
-    public List<Productos> getLista() {
-        return lista;
-    }
-
-    //Método para incluir un producto en la 
-    public static void incluirProducto(Productos nuevoProducto) throws Exception {
-        proJpa.create(nuevoProducto);
-    }
-
-    //Método que recibe un int id para eliminar un producto de la bbdd
-    public static void borrarProducto(int id) throws NonexistentEntityException, IllegalOrphanException {
-        proJpa.destroy(id);
-    }
-
-    //Método que recibe un producto y usa el método edit para modificarlo
-    public static void editarProducto(Productos productos) throws NonexistentEntityException, Exception {
-        proJpa.edit(productos);
-    }
-
-    //Método que recibe una id y usa el método find para buscar por id
-    public static Productos buscarPordId(int id) {
-        return proJpa.findProductos(id);
-    }
-
-    //Método para inicializar el tpv
-    public static Tpv inicializaTpv(int id) {
-        return tpvJpa.findTpv(id);
-    }
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

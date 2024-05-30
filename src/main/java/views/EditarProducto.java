@@ -5,8 +5,9 @@
 package views;
 
 import entidades.Productos;
-import java.awt.Color;
-import java.math.BigDecimal;
+import entidades.TiposProductos;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -32,38 +33,73 @@ public class EditarProducto extends javax.swing.JDialog {
     // Este método privado permite cargar los datos en los componentes
     // de este jdialog del registro seleccionado en el jtable de la ventana
     private void mostrarDatosEditar() {
-        //try{}
-            BigDecimal precio = new BigDecimal(1);
-               // if()
-        // Obtengo el id de la persona seleccionada
-        // Para ello, obtengo la fila seleccionada y luego el id de esa fila
-        int fila = filaSeleccionadaJTable(admin.getJTable());
-        
-        // El id del producto es el valor de la columna cero de esa fila
-        int id = (int) admin.getJTable().getValueAt(fila, 0);
-        String nombreProducto = (String) admin.getJTable().getValueAt(fila, 1);
-        BigDecimal precio = (String) admin.getJTable().getValueAt(fila, 2);
-        BigDecimal ivaProducto = (String) admin.getJTable().getValueAt(fila, 2);
-        String grupoSanguineo = (String) admin.getJTable().getValueAt(fila, 3);
-        String rh = (String) admin.getJTable().getValueAt(fila, 4);
-        int numeroDonaciones = (int) admin.getJTable().getValueAt(fila, 5);
-        // Guarda la persona seleccionada
-        this.donante = admin.getListaDonante().getDonante(Integer.toString(id_paciente));
-        // Muestra datos de la persona que se seleccionó en el jtable
-        // en los jtextfield
-        jTextField1.setText(Integer.toString(this.donante.getId_paciente()));
-        jTextField1.setEditable(false); // No editable
-        jTextField1.setBackground(Color.GRAY);
-        jTextField2.setText(this.donante.getNombre());
-        jTextFieldFecNac.setText(this.donante.getFechaNacimiento());
-        jTextFieldGrupSangu.setText(this.donante.getGrupoSanguineo());
-        jTextFieldRH.setText(this.donante.getRh());
-        String textoNumeroDonaciones = Integer.toString(numeroDonaciones);
-        jTextFieldNumDona.setText(textoNumeroDonaciones);
+        try {
+            // Obtengo la fila seleccionada y luego el id de esa fila
+            int fila = filaSeleccionadaJTable(admin.getJTable());
 
+            // Verifico que haya una fila seleccionada
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Para editar un producto debe seleccionar un producto de la lista", "DawFood", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Obtengo los valores de la fila seleccionada
+            int idProducto = (int) admin.getJTable().getValueAt(fila, 0);
+            String nombreProducto = (String) admin.getJTable().getValueAt(fila, 1);
+            Double precio = (Double) admin.getJTable().getValueAt(fila, 2);
+            int ivaProducto = (int) admin.getJTable().getValueAt(fila, 3);
+            int stockProducto = (int) admin.getJTable().getValueAt(fila, 4);
+            String idTipo = (String) admin.getJTable().getValueAt(fila, 5);
+            String descripcionProducto = (String) admin.getJTable().getValueAt(fila, 6);
+
+            // Guarda producto seleccionado
+            //Aqui se usa buscarporid que es un metodo NamedQuery
+            this.producto = Administrador.buscarPordId(idProducto);
+
+            // Muestra datos del producto que se seleccionó en el jtable en los jtextfield
+            jTextFieldId.setText(Integer.toString(this.producto.getIdProducto()));
+            // Requisitos del proyecto id no editable
+            jTextFieldId.setEditable(false);
+
+            jTextFieldNombre.setText(nombreProducto);
+
+            // Aqui se controla de valores positivos
+            try {
+                if (precio < 0) {
+                    throw new IllegalArgumentException("El precio debe ser positivo");
+                }
+                jTextFieldPrecio.setText(String.valueOf(precio));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Debes introducir un numero correcto ",
+                        "DawFood - Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+            jTextFieldPrecio.setText(precio.toString());
+
+            jComboBoxIva.setSelectedItem(Integer.toString(ivaProducto));
+
+            try {
+                if (stockProducto < 0) {
+                    throw new IllegalArgumentException("El stock debe ser positivo.");
+                } else {
+                    jSpinnerStock.setValue(stockProducto);
+                }
+            } catch (NumberFormatException ae) {
+                JOptionPane.showMessageDialog(this, "Debes introducir un numero correcto ",
+                        "DawFood - Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+            jTextFieldDescripcion.setText(this.producto.getDescripcionProducto());
+
+            String tipoProductos = this.producto.getIdTipo().getCategoria();
+            jComboBoxTipoPro.setSelectedItem(tipoProductos);
+            System.out.println(tipoProductos);
+
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(this, "Debes rellenar todos los campos", "DawFood - Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    // Este método permite obtener la fila seleccionada en el JTable
     private int filaSeleccionadaJTable(JTable jTable1) {
         int fila = jTable1.getSelectedRow();
         return fila;
@@ -87,7 +123,6 @@ public class EditarProducto extends javax.swing.JDialog {
         jComboBoxIva = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextFieldStock = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jComboBoxTipoPro = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
@@ -95,6 +130,7 @@ public class EditarProducto extends javax.swing.JDialog {
         jLabe1 = new javax.swing.JLabel();
         jTextFieldNombre = new javax.swing.JTextField();
         jLabe2 = new javax.swing.JLabel();
+        jSpinnerStock = new javax.swing.JSpinner();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -140,7 +176,7 @@ public class EditarProducto extends javax.swing.JDialog {
         jComboBoxIva.setBackground(new java.awt.Color(251, 234, 198));
         jComboBoxIva.setForeground(new java.awt.Color(0, 0, 0));
         jComboBoxIva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "4", "10", "21" }));
-        jPanel1.add(jComboBoxIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 240, -1, -1));
+        jPanel1.add(jComboBoxIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 240, 190, -1));
 
         jLabel6.setBackground(new java.awt.Color(153, 153, 153));
         jLabel6.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -154,11 +190,6 @@ public class EditarProducto extends javax.swing.JDialog {
         jLabel7.setText("Stock:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 80, 20));
 
-        jTextFieldStock.setEditable(false);
-        jTextFieldStock.setBackground(new java.awt.Color(251, 234, 198));
-        jTextFieldStock.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel1.add(jTextFieldStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 190, -1));
-
         jLabel8.setBackground(new java.awt.Color(153, 153, 153));
         jLabel8.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(251, 234, 198));
@@ -167,8 +198,8 @@ public class EditarProducto extends javax.swing.JDialog {
 
         jComboBoxTipoPro.setBackground(new java.awt.Color(251, 234, 198));
         jComboBoxTipoPro.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBoxTipoPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Comida", "Bebida", "Postre" }));
-        jPanel1.add(jComboBoxTipoPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, -1, -1));
+        jComboBoxTipoPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "comida", "bebida", "postre" }));
+        jPanel1.add(jComboBoxTipoPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 190, -1));
 
         jLabel3.setBackground(new java.awt.Color(153, 153, 153));
         jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -196,6 +227,11 @@ public class EditarProducto extends javax.swing.JDialog {
         jLabe2.setText("Nombre:");
         jPanel1.add(jLabe2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 80, -1));
 
+        jSpinnerStock.setName(""); // NOI18N
+        jSpinnerStock.setNextFocusableComponent(jComboBoxIva);
+        jSpinnerStock.setOpaque(true);
+        jPanel1.add(jSpinnerStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 190, -1));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 390, 460));
 
         jButton1.setBackground(new java.awt.Color(246, 235, 198));
@@ -216,19 +252,30 @@ public class EditarProducto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton7ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformedGestion
-        // Guardo en la persona seleccionada los cambios de los jtextfield
-        this.prod.setNombre(jTextField2.getText());
-        this.donante.setFechaNacimiento(jTextFieldFecNac.getText());
-        this.donante.setGrupoSanguineo(jTextFieldGrupSangu.getText());
-        this.donante.setRh(jTextFieldRH.getText());
-        this.donante.setNumeroDonaciones(Integer.parseInt(jTextFieldNumDona.getText()));
+        // Guardo en producto seleccionada los cambios de los jtextfield
+        this.producto.setNombreProducto(jTextFieldNombre.getText());
+        this.producto.setPrecioProducto(Double.parseDouble(jTextFieldPrecio.getText()));
+        this.producto.setIvaProducto(Integer.parseInt(jComboBoxIva.getSelectedItem().toString()));
+        this.producto.setStockProducto((int) jSpinnerStock.getValue());
+
+        String nombreTipoProducto = jComboBoxTipoPro.getSelectedItem().toString();
+
+        // Aquí debes buscar el objeto TiposProductos correspondiente al nombre seleccionado
+        // por ejemplo, podrías tener un método en tu clase Administrador que haga esto
+        TiposProductos tipoProducto = entidades.findByCategoria(nombreTipoProducto);
+
+        // Luego, asignas el ID del tipo de producto al objeto producto
+        this.producto.setIdTipo(tipoProducto.getIdTipo());
+
+        this.producto.setIdTipo(jComboBoxTipoPro.getSelectedItem().toString());
+        this.producto.setDescripcionProducto(jTextFieldDescripcion.getText());
 
         // En este punto también se podrían guardar los cambios en un 
         // fichero o en una BD
         // Cierro el dialogo
         this.dispose();
         JOptionPane.showMessageDialog(null, "Registro modificado correctamente");
-    }
+
     }//GEN-LAST:event_jButton7ActionPerformedGestion
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -237,59 +284,6 @@ public class EditarProducto extends javax.swing.JDialog {
         p.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//
-//}
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(EditarProducto.class  
-//
-//.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//
-//} catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(EditarProducto.class  
-//
-//.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//
-//} catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(EditarProducto.class  
-//
-//.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//
-//} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(EditarProducto.class  
-//
-//.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                EditarProducto dialog = new EditarProducto(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -306,10 +300,10 @@ public class EditarProducto extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSpinner jSpinnerStock;
     private javax.swing.JTextField jTextFieldDescripcion;
     private javax.swing.JTextField jTextFieldId;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldPrecio;
-    private javax.swing.JTextField jTextFieldStock;
     // End of variables declaration//GEN-END:variables
 }
