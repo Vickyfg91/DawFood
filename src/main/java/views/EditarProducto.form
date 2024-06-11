@@ -230,7 +230,7 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;comida&quot;, &quot;bebida&quot;, &quot;postre&quot; })" type="code"/>
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Patatas fritas&quot;, &quot;Hamburguesa&quot;, &quot;Ensaladas&quot;, &quot;Postre Caseros&quot;, &quot;Azucaradas&quot;, &quot;SinAzucar&quot;, &quot;Cervezas&quot;, &quot;Agua&quot;, &quot;Helados&quot;, &quot;Complementos&quot; })" type="code"/>
             </Property>
           </Properties>
           <AuxValues>

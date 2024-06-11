@@ -4,11 +4,21 @@
  */
 package views;
 
+import controladores.ProductosJpaController;
+import entidades.Productos;
+import entidades.TiposProductos;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vickyfg
  */
 public class CrearNuevoProducto extends javax.swing.JDialog {
+
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
+    private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(emf);
 
     /**
      * Creates new form CrearNuevoProducto
@@ -18,7 +28,10 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
         initComponents();
     }
 
-    
+    //Método para incluir un producto en la lista
+    public static void incluirProducto(Productos nuevoProducto) throws Exception {
+        proJpa.create(nuevoProducto);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,13 +50,13 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTextFieldNombre = new javax.swing.JTextField();
-        jTextFieldCantidad = new javax.swing.JTextField();
-        jTextFieldStock = new javax.swing.JTextField();
+        jTextFieldPrecio = new javax.swing.JTextField();
         jTextFieldDescripcion = new javax.swing.JTextField();
         jComboBoxIva = new javax.swing.JComboBox<>();
         jComboBoxTipoPro = new javax.swing.JComboBox<>();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        jBotonAtras = new javax.swing.JButton();
+        jBotonGuardar = new javax.swing.JButton();
+        jSpinnerStock = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -92,13 +105,9 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
         jTextFieldNombre.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 190, -1));
 
-        jTextFieldCantidad.setBackground(new java.awt.Color(255, 153, 153));
-        jTextFieldCantidad.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel1.add(jTextFieldCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 190, -1));
-
-        jTextFieldStock.setBackground(new java.awt.Color(255, 153, 153));
-        jTextFieldStock.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel1.add(jTextFieldStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 190, -1));
+        jTextFieldPrecio.setBackground(new java.awt.Color(255, 153, 153));
+        jTextFieldPrecio.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jTextFieldPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 190, -1));
 
         jTextFieldDescripcion.setBackground(new java.awt.Color(255, 153, 153));
         jTextFieldDescripcion.setForeground(new java.awt.Color(0, 0, 0));
@@ -107,36 +116,37 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
         jComboBoxIva.setBackground(new java.awt.Color(255, 153, 153));
         jComboBoxIva.setForeground(new java.awt.Color(0, 0, 0));
         jComboBoxIva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "4", "10", "21" }));
-        jPanel1.add(jComboBoxIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, -1, -1));
+        jPanel1.add(jComboBoxIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 190, -1));
 
         jComboBoxTipoPro.setBackground(new java.awt.Color(255, 153, 153));
         jComboBoxTipoPro.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBoxTipoPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Comida", "Bebida", "Postre" }));
-        jPanel1.add(jComboBoxTipoPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, -1, -1));
+        jComboBoxTipoPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Patatas fritas", "Hamburguesa", "Ensaladas", "Postre Caseros", "Azucaradas", "SinAzucar", "Cervezas", "Agua", "Helados", "Complementos" }));
+        jPanel1.add(jComboBoxTipoPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 190, -1));
 
-        jButton6.setBackground(new java.awt.Color(115, 172, 178));
-        jButton6.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(246, 235, 198));
-        jButton6.setText("Atrás");
-        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(123, 169, 171)));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jBotonAtras.setBackground(new java.awt.Color(115, 172, 178));
+        jBotonAtras.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        jBotonAtras.setForeground(new java.awt.Color(246, 235, 198));
+        jBotonAtras.setText("Atrás");
+        jBotonAtras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(123, 169, 171)));
+        jBotonAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformedGestion(evt);
+                jBotonAtrasActionPerformedGestion(evt);
             }
         });
-        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 410, 130, -1));
+        jPanel1.add(jBotonAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 410, 130, -1));
 
-        jButton7.setBackground(new java.awt.Color(115, 172, 178));
-        jButton7.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(246, 235, 198));
-        jButton7.setText("Guardar");
-        jButton7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(123, 169, 171)));
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        jBotonGuardar.setBackground(new java.awt.Color(115, 172, 178));
+        jBotonGuardar.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        jBotonGuardar.setForeground(new java.awt.Color(246, 235, 198));
+        jBotonGuardar.setText("Guardar");
+        jBotonGuardar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(123, 169, 171)));
+        jBotonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformedGestion(evt);
+                jBotonGuardarActionPerformedGestion(evt);
             }
         });
-        jPanel1.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 120, -1));
+        jPanel1.add(jBotonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 120, -1));
+        jPanel1.add(jSpinnerStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 190, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 370, 480));
 
@@ -149,61 +159,97 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformedGestion
-        Principal p = new Principal();
-        this.setVisible(false);
-        p.setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformedGestion
+    private void jBotonAtrasActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonAtrasActionPerformedGestion
+        this.dispose();
+    }//GEN-LAST:event_jBotonAtrasActionPerformedGestion
 
-    private void jButton7ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformedGestion
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformedGestion
+    private void jBotonGuardarActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonGuardarActionPerformedGestion
+        try {
+            Productos p = new Productos();
 
-    /**
-     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(CrearNuevoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(CrearNuevoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(CrearNuevoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(CrearNuevoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                CrearNuevoProducto dialog = new CrearNuevoProducto(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
+            String ivaSt = jComboBoxIva.getSelectedItem().toString();
+            if (ivaSt.isEmpty()) {
+                throw new IllegalArgumentException("El campo IVA no puede estar vacio");
+            }
+            int iva = Integer.parseInt(ivaSt);
+            p.setIvaProducto(iva);
+
+            String nombre = jTextFieldNombre.getText();
+            if (nombre.isEmpty()) {
+                throw new IllegalArgumentException("El campo Nombre no puede estar vacio");
+            }
+            p.setNombreProducto(nombre);
+
+            int stock = (int) jSpinnerStock.getValue();
+            if (stock <= 0) {
+                throw new IllegalArgumentException("El campo Stock no puede ser cero");
+            }
+            p.setStockProducto(stock);
+
+            String tipoProducto = jComboBoxTipoPro.getSelectedItem().toString();
+            if (tipoProducto.isEmpty()) {
+                throw new IllegalArgumentException("Debe seleccionar un Tipo de Producto");
+            }
+            
+            String descripcion = jTextFieldDescripcion.getText();
+            p.setDescripcionProducto(descripcion);
+
+            switch (tipoProducto) {
+                case "Patatas fritas" ->
+                    p.setIdTipo(new TiposProductos(600));
+                case "Hamburguesa" ->
+                    p.setIdTipo(new TiposProductos(602));
+                case "Ensaladas" ->
+                    p.setIdTipo(new TiposProductos(603));
+                case "Postre Caseros" ->
+                    p.setIdTipo(new TiposProductos(605));
+                case "Azucaradas" ->
+                    p.setIdTipo(new TiposProductos(607));
+                case "SinAzucar" ->
+                    p.setIdTipo(new TiposProductos(608));
+                case "Cervezas" ->
+                    p.setIdTipo(new TiposProductos(609));
+                case "Agua" ->
+                    p.setIdTipo(new TiposProductos(610));
+                case "Helados" ->
+                    p.setIdTipo(new TiposProductos(612));
+                case "Complementos" ->
+                    p.setIdTipo(new TiposProductos(620));
+
+            }
+
+            //El precio primero como string y luego parseamos a double
+            String precioS = jTextFieldPrecio.getText();
+            if (precioS.isEmpty()) {
+                throw new IllegalArgumentException("El campo Precio no puede estar vacio");
+            }
+            double precio = Double.parseDouble(precioS);
+            if (precio < 0) {
+                throw new IllegalArgumentException("El precio debe ser un número positivo");
+            }
+            p.setPrecioProducto(precio);
+
+            // Incluir el producto en la bbdd con metodo NamedQuery
+            incluirProducto(p);
+            this.dispose();
+
+        } catch (NumberFormatException n) {
+            JOptionPane.showMessageDialog(null,
+                    "Error. El precio debe ser un número válido!", "DawFood", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException i) {
+            JOptionPane.showMessageDialog(null,
+                    i.getMessage(), "DawFood", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al incluir el producto: " + e.getMessage(), "DawFood", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jBotonGuardarActionPerformedGestion
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jBotonAtras;
+    private javax.swing.JButton jBotonGuardar;
     private javax.swing.JComboBox<String> jComboBoxIva;
     private javax.swing.JComboBox<String> jComboBoxTipoPro;
     private javax.swing.JLabel jLabe;
@@ -214,9 +260,9 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextFieldCantidad;
+    private javax.swing.JSpinner jSpinnerStock;
     private javax.swing.JTextField jTextFieldDescripcion;
     private javax.swing.JTextField jTextFieldNombre;
-    private javax.swing.JTextField jTextFieldStock;
+    private javax.swing.JTextField jTextFieldPrecio;
     // End of variables declaration//GEN-END:variables
 }

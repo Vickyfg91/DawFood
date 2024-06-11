@@ -26,10 +26,10 @@ import javax.swing.JTable;
  */
 public class Administrador extends javax.swing.JDialog {
 
-    private static final EntityManagerFactory crud = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
-    private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(crud);
-    private static final TiposProductosJpaController tpJpa = new controladores.TiposProductosJpaController(crud);
-    private static final TpvJpaController tpvJpa = new TpvJpaController(crud);
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
+    private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(emf);
+    private static final TiposProductosJpaController tpJpa = new controladores.TiposProductosJpaController(emf);
+    private static final TpvJpaController tpvJpa = new TpvJpaController(emf);
     private Principal principal;
     private List<Productos> lista = new ArrayList<>();
 
@@ -52,14 +52,6 @@ public class Administrador extends javax.swing.JDialog {
         this.lista = lista;
     }
 
-    public static List<Productos> crearListaProducto() {
-        return proJpa.findProductosEntities();
-    }
-
-    //Método para incluir un producto en la 
-    public static void incluirProducto(Productos nuevoProducto) throws Exception {
-        proJpa.create(nuevoProducto);
-    }
 
     //Método que recibe un int id para eliminar un producto de la bbdd
     public static void borrarProducto(int id) throws NonexistentEntityException, IllegalOrphanException {
@@ -76,18 +68,7 @@ public class Administrador extends javax.swing.JDialog {
         return proJpa.findProductos(id);
     }
 
-    //Método para buscar el nombre de tipo categoria producto 
-     public TiposProductos buscarTipoProductoPorNombre(String nombreTipoProducto) {
-        try {
-            Query query = tpJpa.createNamedQuery("TiposProductos.findByCategoria");
-            query.setParameter("categoria", nombreTipoProducto);
-            return (TiposProductos) query.getSingleResult();
-        } catch (Exception e) {
-            // Manejo de excepciones en caso de que no se encuentre el tipo de producto
-            // Puedes retornar null o lanzar una excepción personalizada, dependiendo de tu lógica de negocio
-            return null;
-        }
-    }
+
     // Este método inserta los datos de la lista en el jtable
     private void cargarDatosJTable() {
 
@@ -212,10 +193,10 @@ public class Administrador extends javax.swing.JDialog {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Elija una opción para productos:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 440, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 420, 30));
 
         jPanel1.setBackground(new java.awt.Color(246, 235, 198));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -230,15 +211,18 @@ public class Administrador extends javax.swing.JDialog {
 
     private void jButton2ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformedGestion
         new CrearNuevoProducto(this, true).setVisible(true);
+        
 
     }//GEN-LAST:event_jButton2ActionPerformedGestion
 
     private void jButton3ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedGestion
-        // TODO add your handling code here:
+        // boton borrar
+        //comprobar si se selecciona un producto
+        
     }//GEN-LAST:event_jButton3ActionPerformedGestion
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new Principal().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformedGestion

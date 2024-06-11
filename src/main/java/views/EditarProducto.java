@@ -198,7 +198,7 @@ public class EditarProducto extends javax.swing.JDialog {
 
         jComboBoxTipoPro.setBackground(new java.awt.Color(251, 234, 198));
         jComboBoxTipoPro.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBoxTipoPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "comida", "bebida", "postre" }));
+        jComboBoxTipoPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Patatas fritas", "Hamburguesa", "Ensaladas", "Postre Caseros", "Azucaradas", "SinAzucar", "Cervezas", "Agua", "Helados", "Complementos" }));
         jPanel1.add(jComboBoxTipoPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 190, -1));
 
         jLabel3.setBackground(new java.awt.Color(153, 153, 153));
@@ -262,12 +262,12 @@ public class EditarProducto extends javax.swing.JDialog {
 
         // Aquí debes buscar el objeto TiposProductos correspondiente al nombre seleccionado
         // por ejemplo, podrías tener un método en tu clase Administrador que haga esto
-        TiposProductos tipoProducto = entidades.findByCategoria(nombreTipoProducto);
-
-        // Luego, asignas el ID del tipo de producto al objeto producto
-        this.producto.setIdTipo(tipoProducto.getIdTipo());
-
-        this.producto.setIdTipo(jComboBoxTipoPro.getSelectedItem().toString());
+//        TiposProductos tipoProducto = entidades.findByCategoria(nombreTipoProducto);
+//
+//        // Luego, asignas el ID del tipo de producto al objeto producto
+//        this.producto.setIdTipo(tipoProducto.getIdTipo());
+//
+//        this.producto.setIdTipo(jComboBoxTipoPro.getSelectedItem().toString());
         this.producto.setDescripcionProducto(jTextFieldDescripcion.getText());
 
         // En este punto también se podrían guardar los cambios en un 
