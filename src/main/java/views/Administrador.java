@@ -42,6 +42,7 @@ public class Administrador extends javax.swing.JDialog {
         lista = proJpa.findProductosEntities();
         initComponents();
         cargarDatosJTable();
+        setLocationRelativeTo(null);
     }
 
     public List<Productos> getLista() {
@@ -58,10 +59,7 @@ public class Administrador extends javax.swing.JDialog {
         proJpa.destroy(id);
     }
 
-    //Método que recibe un producto y usa el método edit para modificarlo
-    public static void editarProducto(Productos productos) throws NonexistentEntityException, Exception {
-        proJpa.edit(productos);
-    }
+    
 
     //Método que recibe una id y usa el método find para buscar por id
     public static Productos buscarPordId(int id) {

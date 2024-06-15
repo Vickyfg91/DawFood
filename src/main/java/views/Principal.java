@@ -73,7 +73,7 @@ public class Principal extends javax.swing.JFrame {
                 jButton3ActionPerformedTickets(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 600, 80, 40));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 590, 100, 60));
 
         jButton4.setBackground(new java.awt.Color(227, 122, 110));
         jButton4.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
@@ -100,7 +100,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformedGestion
 
     private void jButton2ActionPerformedCliente(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformedCliente
-        new Cliente().setVisible(true);
+        new Cliente(this, true).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformedCliente
 
     private void jButton3ActionPerformedTickets(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedTickets

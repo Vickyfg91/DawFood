@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class CrearNuevoProducto extends javax.swing.JDialog {
 
+    
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
     private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(emf);
 
@@ -24,8 +25,10 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
      * Creates new form CrearNuevoProducto
      */
     public CrearNuevoProducto(Administrador parent, boolean modal) {
+        
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     //Método para incluir un producto en la lista
@@ -167,10 +170,7 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
         try {
             Productos p = new Productos();
 
-            String ivaSt = jComboBoxIva.getSelectedItem().toString();
-            if (ivaSt.isEmpty()) {
-                throw new IllegalArgumentException("El campo IVA no puede estar vacio");
-            }
+            String ivaSt = jComboBoxIva.getSelectedItem().toString();  
             int iva = Integer.parseInt(ivaSt);
             p.setIvaProducto(iva);
 

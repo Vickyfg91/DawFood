@@ -4,10 +4,11 @@
  */
 package views;
 
+import controladores.ProductosJpaController;
+import controladores.exceptions.NonexistentEntityException;
 import entidades.Productos;
-import entidades.TiposProductos;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -19,85 +20,55 @@ public class EditarProducto extends javax.swing.JDialog {
 
     private Administrador admin;
     private Productos producto;
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
+    private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(emf);
 
     /**
      * Creates new form EditarProducto
      */
     public EditarProducto(Administrador parent, boolean modal) {
+
         super(parent, modal);
         admin = parent;
         initComponents();
         mostrarDatosEditar();
+        setLocationRelativeTo(null);
     }
 
-    // Este método privado permite cargar los datos en los componentes
+    // Este método carga los datos 
     // de este jdialog del registro seleccionado en el jtable de la ventana
     private void mostrarDatosEditar() {
-        try {
-            // Obtengo la fila seleccionada y luego el id de esa fila
-            int fila = filaSeleccionadaJTable(admin.getJTable());
 
-            // Verifico que haya una fila seleccionada
-            if (fila == -1) {
-                JOptionPane.showMessageDialog(this, "Para editar un producto debe seleccionar un producto de la lista", "DawFood", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+        //Obtengo la fila seleccionada y luego el id de esa fila
+        int fila = filaSeleccionadaJTable(admin.getJTable());
 
-            // Obtengo los valores de la fila seleccionada
-            int idProducto = (int) admin.getJTable().getValueAt(fila, 0);
-            String nombreProducto = (String) admin.getJTable().getValueAt(fila, 1);
-            Double precio = (Double) admin.getJTable().getValueAt(fila, 2);
-            int ivaProducto = (int) admin.getJTable().getValueAt(fila, 3);
-            int stockProducto = (int) admin.getJTable().getValueAt(fila, 4);
-            String idTipo = (String) admin.getJTable().getValueAt(fila, 5);
-            String descripcionProducto = (String) admin.getJTable().getValueAt(fila, 6);
-
-            // Guarda producto seleccionado
-            //Aqui se usa buscarporid que es un metodo NamedQuery
-            this.producto = Administrador.buscarPordId(idProducto);
-
-            // Muestra datos del producto que se seleccionó en el jtable en los jtextfield
-            jTextFieldId.setText(Integer.toString(this.producto.getIdProducto()));
-            // Requisitos del proyecto id no editable
-            jTextFieldId.setEditable(false);
-
-            jTextFieldNombre.setText(nombreProducto);
-
-            // Aqui se controla de valores positivos
-            try {
-                if (precio < 0) {
-                    throw new IllegalArgumentException("El precio debe ser positivo");
-                }
-                jTextFieldPrecio.setText(String.valueOf(precio));
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Debes introducir un numero correcto ",
-                        "DawFood - Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-            jTextFieldPrecio.setText(precio.toString());
-
-            jComboBoxIva.setSelectedItem(Integer.toString(ivaProducto));
-
-            try {
-                if (stockProducto < 0) {
-                    throw new IllegalArgumentException("El stock debe ser positivo.");
-                } else {
-                    jSpinnerStock.setValue(stockProducto);
-                }
-            } catch (NumberFormatException ae) {
-                JOptionPane.showMessageDialog(this, "Debes introducir un numero correcto ",
-                        "DawFood - Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-            jTextFieldDescripcion.setText(this.producto.getDescripcionProducto());
-
-            String tipoProductos = this.producto.getIdTipo().getCategoria();
-            jComboBoxTipoPro.setSelectedItem(tipoProductos);
-            System.out.println(tipoProductos);
-
-        } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(this, "Debes rellenar todos los campos", "DawFood - Error", JOptionPane.ERROR_MESSAGE);
+        //Verifico que haya una fila seleccionada
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Para editar un producto debe seleccionar un producto de la lista", "DawFood", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        // Obtengo los valores de la fila seleccionada
+        int idProducto = (int) admin.getJTable().getValueAt(fila, 0);
+        producto = admin.buscarPordId(idProducto);
+
+        jTextFieldId.setText(Integer.toString(producto.getIdProducto()));
+         // Requisitos del proyecto id no editable
+        jTextFieldId.setEditable(false);
+        jTextFieldNombre.setText(producto.getNombreProducto());
+        jTextFieldPrecio.setText(Double.toString(producto.getPrecioProducto()));
+        jComboBoxIva.setSelectedItem(Integer.toString(producto.getIvaProducto()));
+        jSpinnerStock.setValue(producto.getStockProducto());
+        jTextAreaDescripcion.setText(producto.getDescripcionProducto());
+
+        // Guarda producto seleccionado
+        //Aqui se usa buscarporid que es un metodo NamedQuery
+        this.producto = Administrador.buscarPordId(idProducto);
+    }
+
+    //Método que recibe un producto y usa el método edit para modificarlo
+    public static void editarProducto(Productos producto) throws NonexistentEntityException, Exception {
+        proJpa.edit(producto);
     }
 
     private int filaSeleccionadaJTable(JTable jTable1) {
@@ -123,14 +94,13 @@ public class EditarProducto extends javax.swing.JDialog {
         jComboBoxIva = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jComboBoxTipoPro = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jTextFieldDescripcion = new javax.swing.JTextField();
         jLabe1 = new javax.swing.JLabel();
         jTextFieldNombre = new javax.swing.JTextField();
         jLabe2 = new javax.swing.JLabel();
         jSpinnerStock = new javax.swing.JSpinner();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaDescripcion = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -190,26 +160,11 @@ public class EditarProducto extends javax.swing.JDialog {
         jLabel7.setText("Stock:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 80, 20));
 
-        jLabel8.setBackground(new java.awt.Color(153, 153, 153));
-        jLabel8.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(251, 234, 198));
-        jLabel8.setText("Tipo:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 80, 20));
-
-        jComboBoxTipoPro.setBackground(new java.awt.Color(251, 234, 198));
-        jComboBoxTipoPro.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBoxTipoPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Patatas fritas", "Hamburguesa", "Ensaladas", "Postre Caseros", "Azucaradas", "SinAzucar", "Cervezas", "Agua", "Helados", "Complementos" }));
-        jPanel1.add(jComboBoxTipoPro, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 190, -1));
-
         jLabel3.setBackground(new java.awt.Color(153, 153, 153));
         jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(251, 234, 198));
         jLabel3.setText("Descripición:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 140, 20));
-
-        jTextFieldDescripcion.setBackground(new java.awt.Color(251, 234, 198));
-        jTextFieldDescripcion.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel1.add(jTextFieldDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 190, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 140, 100));
 
         jLabe1.setBackground(new java.awt.Color(153, 153, 153));
         jLabe1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -232,6 +187,14 @@ public class EditarProducto extends javax.swing.JDialog {
         jSpinnerStock.setOpaque(true);
         jPanel1.add(jSpinnerStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 190, -1));
 
+        jTextAreaDescripcion.setEditable(false);
+        jTextAreaDescripcion.setBackground(new java.awt.Color(251, 234, 198));
+        jTextAreaDescripcion.setColumns(20);
+        jTextAreaDescripcion.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaDescripcion);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, 210, 100));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 390, 460));
 
         jButton1.setBackground(new java.awt.Color(246, 235, 198));
@@ -252,36 +215,50 @@ public class EditarProducto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton7ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformedGestion
-        // Guardo en producto seleccionada los cambios de los jtextfield
-        this.producto.setNombreProducto(jTextFieldNombre.getText());
-        this.producto.setPrecioProducto(Double.parseDouble(jTextFieldPrecio.getText()));
-        this.producto.setIvaProducto(Integer.parseInt(jComboBoxIva.getSelectedItem().toString()));
-        this.producto.setStockProducto((int) jSpinnerStock.getValue());
 
-        String nombreTipoProducto = jComboBoxTipoPro.getSelectedItem().toString();
+        try {
+            // Guardo en producto seleccionada los cambios de los jtextfiel   
+            String nombre = jTextFieldNombre.getText();
+            if (nombre.isEmpty()) {
+                throw new IllegalArgumentException("El campo Nombre no puede estar vacio");
+            }
+            this.producto.setNombreProducto(jTextFieldNombre.getText());
 
-        // Aquí debes buscar el objeto TiposProductos correspondiente al nombre seleccionado
-        // por ejemplo, podrías tener un método en tu clase Administrador que haga esto
-//        TiposProductos tipoProducto = entidades.findByCategoria(nombreTipoProducto);
-//
-//        // Luego, asignas el ID del tipo de producto al objeto producto
-//        this.producto.setIdTipo(tipoProducto.getIdTipo());
-//
-//        this.producto.setIdTipo(jComboBoxTipoPro.getSelectedItem().toString());
-        this.producto.setDescripcionProducto(jTextFieldDescripcion.getText());
+            this.producto.setIvaProducto(Integer.parseInt(jComboBoxIva.getSelectedItem().toString()));
 
-        // En este punto también se podrían guardar los cambios en un 
-        // fichero o en una BD
-        // Cierro el dialogo
-        this.dispose();
-        JOptionPane.showMessageDialog(null, "Registro modificado correctamente");
+            int stock = (int) jSpinnerStock.getValue();
+            if (stock <= 0) {
+                throw new IllegalArgumentException("El campo Stock no puede ser cero");
+            }
+            this.producto.setStockProducto((int) jSpinnerStock.getValue());
+
+            String precioS = jTextFieldPrecio.getText();
+            if (precioS.isEmpty()) {
+                throw new IllegalArgumentException("El campo Precio no puede estar vacio");
+            }
+            double precio = Double.parseDouble(precioS);
+            if (precio < 0) {
+                throw new IllegalArgumentException("El precio debe ser un número positivo");
+            }
+            this.producto.setPrecioProducto(Double.parseDouble(jTextFieldPrecio.getText()));
+
+            this.producto.setDescripcionProducto(jTextAreaDescripcion.getText());
+
+            editarProducto(this.producto);
+            JOptionPane.showMessageDialog(null, "Registro modificado correctamente");
+            this.dispose();
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "DawFood", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al editar el producto", "DawFood", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
 
     }//GEN-LAST:event_jButton7ActionPerformedGestion
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Principal p = new Principal();
-        this.setVisible(false);
-        p.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -289,7 +266,6 @@ public class EditarProducto extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBoxIva;
-    private javax.swing.JComboBox<String> jComboBoxTipoPro;
     private javax.swing.JLabel jLabe;
     private javax.swing.JLabel jLabe1;
     private javax.swing.JLabel jLabe2;
@@ -298,10 +274,10 @@ public class EditarProducto extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinnerStock;
-    private javax.swing.JTextField jTextFieldDescripcion;
+    private javax.swing.JTextArea jTextAreaDescripcion;
     private javax.swing.JTextField jTextFieldId;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldPrecio;
