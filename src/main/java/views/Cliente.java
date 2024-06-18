@@ -4,6 +4,9 @@
  */
 package views;
 
+import dawfood.Carrito;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Victoria
@@ -11,18 +14,19 @@ package views;
 public class Cliente extends javax.swing.JDialog {
 
     private Principal padre;
+    private Carrito carrito = Carrito.getCarrito();
+    
     
     /**
      * Creates new form Cliente
      */
     public Cliente(Principal parent, boolean model) {
         super(parent, model);
-        padre = parent;
+        this.padre = parent;
         initComponents();
         setLocationRelativeTo(null);
         
     }
-
 
 
     /**
@@ -130,24 +134,31 @@ public class Cliente extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformedGestion
 
     private void jButton3ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedGestion
-        new MostrarProducto(padre, true).setVisible(true);
+        new MostrarProducto(this, true).setVisible(true);
 
      }//GEN-LAST:event_jButton3ActionPerformedGestion
 
     private void jButton4ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformedGestion
-        //new MostrarProductoB(padre, true).setVisible(true);
+        new MostrarProductoB(this, true).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformedGestion
 
     private void jButton5ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformedGestion
-        // TODO add your handling code here:
+        new MostrarProductoP(this, true).setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformedGestion
 
     private void jButton6ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformedGestion
-        // TODO add your handling code here:
+        new VerCarrito(this, true).setVisible(true);
+        
     }//GEN-LAST:event_jButton6ActionPerformedGestion
 
     private void jButton7ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformedGestion
-        // TODO add your handling code here:
+        if (carrito.getProductosCarrito().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El carrito esta vacio", "DawFood", JOptionPane.ERROR_MESSAGE);
+        return;
+        }
+        this.dispose();
+        new Pagos(this, true).setVisible(true);
+        return;
     }//GEN-LAST:event_jButton7ActionPerformedGestion
 
 

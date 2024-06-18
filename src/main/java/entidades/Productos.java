@@ -5,12 +5,13 @@
 package entidades;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author vickyfg
+ * @author Victoria
  */
 @Entity
 @Table(name = "productos")
@@ -37,16 +38,16 @@ public class Productos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_producto")
     private Integer idProducto;
     @Basic(optional = false)
     @Column(name = "nombre_producto")
     private String nombreProducto;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @Column(name = "precio_producto")
-    private Double precioProducto;
+    private double precioProducto;
     @Basic(optional = false)
     @Column(name = "iva_producto")
     private int ivaProducto;
@@ -68,7 +69,7 @@ public class Productos implements Serializable {
         this.idProducto = idProducto;
     }
 
-    public Productos(Integer idProducto, String nombreProducto, Double precioProducto, int ivaProducto, int stockProducto) {
+    public Productos(Integer idProducto, String nombreProducto, double precioProducto, int ivaProducto, int stockProducto) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.precioProducto = precioProducto;
@@ -92,11 +93,11 @@ public class Productos implements Serializable {
         this.nombreProducto = nombreProducto;
     }
 
-    public Double getPrecioProducto() {
+    public double getPrecioProducto() {
         return precioProducto;
     }
 
-    public void setPrecioProducto(Double precioProducto) {
+    public void setPrecioProducto(double precioProducto) {
         this.precioProducto = precioProducto;
     }
 
@@ -164,5 +165,6 @@ public class Productos implements Serializable {
     public String toString() {
         return "entidades.Productos[ idProducto=" + idProducto + " ]";
     }
+    
     
 }

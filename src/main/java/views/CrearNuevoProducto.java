@@ -20,12 +20,11 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
     
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
     private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(emf);
-
+    
     /**
      * Creates new form CrearNuevoProducto
      */
     public CrearNuevoProducto(Administrador parent, boolean modal) {
-        
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);

@@ -4,18 +4,50 @@
  */
 package views;
 
+import controladores.ProductosJpaController;
+import controladores.TicketsJpaController;
+import dawfood.GenerarTickets;
+import dawfood.ModeloTabla;
+import entidades.Tickets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
 /**
  *
  * @author vickyfg
  */
 public class MostrarTickets extends javax.swing.JDialog {
 
+    private List<Tickets> listaTickets = new ArrayList<>();
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
+    private static final TicketsJpaController ticJpa = new controladores.TicketsJpaController(emf);
+    private ModeloTabla mt = new ModeloTabla();
+
     /**
      * Creates new form MostrarTickets
      */
-    public MostrarTickets(java.awt.Frame parent, boolean modal) {
+    public MostrarTickets(Principal parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        listaTickets = crearListas().stream()
+                .sorted((t1, t2) -> t2.getFechaTicket().compareTo(t1.getFechaTicket()))
+                .collect(Collectors.toList());
+        mt.cargarDatosJTicket(jTable1, listaTickets);
+
+    }
+
+    public static List<Tickets> crearListas() {
+        return ticJpa.findTicketsEntities();
+    }
+
+    public JTable getJTable() {
+        return this.jTable1;
     }
 
     /**
@@ -27,64 +59,120 @@ public class MostrarTickets extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButtonSeleccionar = new javax.swing.JButton();
+        jButtonAtras = new javax.swing.JButton();
+        jScrollTablaCompleta = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jButtonSeleccionar.setBackground(new java.awt.Color(246, 235, 198));
+        jButtonSeleccionar.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonSeleccionar.setText("Seleccionar");
+        jButtonSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSeleccionarActionPerformed(evt);
+            }
+        });
+
+        jButtonAtras.setBackground(new java.awt.Color(246, 235, 198));
+        jButtonAtras.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonAtras.setText("Atrás");
+        jButtonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtrasActionPerformed(evt);
+            }
+        });
+
+        jTable1.setBackground(new java.awt.Color(110, 167, 176));
+        jTable1.setForeground(new java.awt.Color(254, 244, 205));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollTablaCompleta.setViewportView(jTable1);
+
+        jLabel1.setBackground(new java.awt.Color(246, 235, 198));
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/5.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollTablaCompleta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)
+                        .addComponent(jButtonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(99, 99, 99))))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(jScrollTablaCompleta, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(148, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(MostrarTickets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(MostrarTickets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(MostrarTickets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(MostrarTickets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                MostrarTickets dialog = new MostrarTickets(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
+    private void jButtonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtrasActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonAtrasActionPerformed
+
+    private void jButtonSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSeleccionarActionPerformed
+        try {
+            int fila = jTable1.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un ticket para verlo", "DawFood", JOptionPane.ERROR_MESSAGE);
+            } else {
+                int idTic = (int) jTable1.getValueAt(fila, 0);
+                String detallesTicket = GenerarTickets.consultaTicket(idTic);
+                JOptionPane.showMessageDialog(this, detallesTicket, "Detalles del Ticket", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al seleccionar el ticket", "DawFood", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButtonSeleccionarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAtras;
+    private javax.swing.JButton jButtonSeleccionar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollTablaCompleta;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

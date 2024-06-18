@@ -5,19 +5,15 @@
 package views;
 
 import controladores.ProductosJpaController;
-import controladores.TiposProductosJpaController;
-import controladores.TpvJpaController;
 import controladores.exceptions.IllegalOrphanException;
 import controladores.exceptions.NonexistentEntityException;
 import dawfood.ModeloTabla;
 import entidades.Productos;
-import entidades.TiposProductos;
-import entidades.Tpv;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
@@ -27,9 +23,7 @@ import javax.swing.JTable;
 public class Administrador extends javax.swing.JDialog {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
-    private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(emf);
-    private static final TiposProductosJpaController tpJpa = new controladores.TiposProductosJpaController(emf);
-    private static final TpvJpaController tpvJpa = new TpvJpaController(emf);
+    private static final ProductosJpaController prodContro = new controladores.ProductosJpaController(emf);
     private Principal principal;
     private List<Productos> lista = new ArrayList<>();
 
@@ -39,7 +33,7 @@ public class Administrador extends javax.swing.JDialog {
     public Administrador(Principal parent, boolean model) {
         super(parent, model);
         principal = parent;
-        lista = proJpa.findProductosEntities();
+        lista = prodContro.findProductosEntities();
         initComponents();
         cargarDatosJTable();
         setLocationRelativeTo(null);
@@ -53,17 +47,9 @@ public class Administrador extends javax.swing.JDialog {
         this.lista = lista;
     }
 
-
-    //Método que recibe un int id para eliminar un producto de la bbdd
-    public static void borrarProducto(int id) throws NonexistentEntityException, IllegalOrphanException {
-        proJpa.destroy(id);
-    }
-
-    
-
     //Método que recibe una id y usa el método find para buscar por id
     public static Productos buscarPordId(int id) {
-        return proJpa.findProductos(id);
+        return prodContro.findProductos(id);
     }
 
 
@@ -97,6 +83,31 @@ public class Administrador extends javax.swing.JDialog {
         // Decimos al JTable el modelo a usar
         jTable1.setModel(modelo);
 
+    }
+    
+    private void borrarProductoSeleccionado() {
+        // Obtener el índice seleccionado en la tabla
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto para borrar.", "Eliminar Producto", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        //Obtener el ID del producto desde la tabla
+        int idProducto = (int) jTable1.getValueAt(filaSeleccionada, 0);
+
+        try {
+           
+            prodContro.destroy(idProducto, this);
+            JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.", "Eliminar Producto", JOptionPane.INFORMATION_MESSAGE);
+
+            //Actualizar la lista y la tabla dsp de borrar
+            lista = prodContro.findProductosEntities();
+            cargarDatosJTable();
+
+        } catch (NonexistentEntityException | IllegalOrphanException ex) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el producto: " + ex.getMessage(), "Eliminar Producto", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // Método para obtener el jtable del formulario
@@ -214,8 +225,8 @@ public class Administrador extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformedGestion
 
     private void jButton3ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformedGestion
-        // boton borrar
-        //comprobar si se selecciona un producto
+         borrarProductoSeleccionado();
+        
         
     }//GEN-LAST:event_jButton3ActionPerformedGestion
 
@@ -227,7 +238,6 @@ public class Administrador extends javax.swing.JDialog {
          new EditarProducto(this, true).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformedGestion
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

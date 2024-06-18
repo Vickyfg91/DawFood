@@ -4,6 +4,8 @@
  */
 package views;
 
+import dawfood.PasarelaDePago;
+
 /**
  *
  * @author vickyfg
@@ -108,7 +110,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformedTickets
 
     private void jButton4ActionPerformedTickets(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformedTickets
-        // TODO add your handling code here:
+        new MostrarTickets(this, true).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformedTickets
 
     /**
@@ -142,6 +144,8 @@ public class Principal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Principal().setVisible(true);
+                PasarelaDePago pasarela = new PasarelaDePago();
+                System.out.println(pasarela.toString());
             }
         });
     }

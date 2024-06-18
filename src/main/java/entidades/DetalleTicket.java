@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author vickyfg
+ * @author Victoria
  */
 @Entity
 @Table(name = "detalle_ticket")
@@ -35,10 +35,8 @@ public class DetalleTicket implements Serializable {
     @Column(name = "cantidad_producto")
     private int cantidadProducto;
     @JoinColumn(name = "id_producto", referencedColumnName = "id_producto", insertable = false, updatable = false)
-    // muchos detalles de ticket pueden estar asociados a un único producto
     @ManyToOne(optional = false)
     private Productos productos;
-    // muchos detalles de ticket pueden estar asociados a un único ticket.
     @JoinColumn(name = "id_ticket", referencedColumnName = "id_ticket", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Tickets tickets;

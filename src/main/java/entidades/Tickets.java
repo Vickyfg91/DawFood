@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +27,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author vickyfg
+ * @author Victoria
  */
 @Entity
 @Table(name = "tickets")
@@ -34,6 +35,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Tickets.findAll", query = "SELECT t FROM Tickets t"),
     @NamedQuery(name = "Tickets.findByIdTicket", query = "SELECT t FROM Tickets t WHERE t.idTicket = :idTicket"),
     @NamedQuery(name = "Tickets.findByFechaTicket", query = "SELECT t FROM Tickets t WHERE t.fechaTicket = :fechaTicket"),
+    @NamedQuery(name = "Tickets.findByHoraTicket", query = "SELECT t FROM Tickets t WHERE t.horaTicket = :horaTicket"),
     @NamedQuery(name = "Tickets.findBySubtotalProducto", query = "SELECT t FROM Tickets t WHERE t.subtotalProducto = :subtotalProducto"),
     @NamedQuery(name = "Tickets.findByTotalTicket", query = "SELECT t FROM Tickets t WHERE t.totalTicket = :totalTicket"),
     @NamedQuery(name = "Tickets.findByCodTransaccion", query = "SELECT t FROM Tickets t WHERE t.codTransaccion = :codTransaccion")})
@@ -49,6 +51,9 @@ public class Tickets implements Serializable {
     @Column(name = "fecha_ticket")
     @Temporal(TemporalType.DATE)
     private Date fechaTicket;
+    @Column(name = "hora_ticket")
+    @Temporal(TemporalType.TIME)
+    private Date horaTicket;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @Column(name = "subtotal_producto")
@@ -59,15 +64,9 @@ public class Tickets implements Serializable {
     @Basic(optional = false)
     @Column(name = "cod_transaccion")
     private int codTransaccion;
-    //Indica que un ticket puede tener muchos detalles de ticket asociados.
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tickets")
-    // Esta relacion contiene instancias de la clase DetalleTicket 
     private Collection<DetalleTicket> detalleTicketCollection;
-    
-    // Esta relacion representada pro idtpv que es una instancia de la clase Tpv
     @JoinColumn(name = "id_tpv", referencedColumnName = "id_tpv")
-    // Indica que muchos tickets pueden estar asociados a un unico TPV pero
-    // que un ticket pertenece a un único TPV.
     @ManyToOne(optional = false)
     private Tpv idTpv;
 
@@ -100,6 +99,14 @@ public class Tickets implements Serializable {
 
     public void setFechaTicket(Date fechaTicket) {
         this.fechaTicket = fechaTicket;
+    }
+
+    public Date getHoraTicket() {
+        return horaTicket;
+    }
+
+    public void setHoraTicket(Date horaTicket) {
+        this.horaTicket = horaTicket;
     }
 
     public BigDecimal getSubtotalProducto() {
@@ -166,5 +173,5 @@ public class Tickets implements Serializable {
     public String toString() {
         return "entidades.Tickets[ idTicket=" + idTicket + " ]";
     }
-    
+
 }

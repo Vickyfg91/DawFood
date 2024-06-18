@@ -21,7 +21,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author vickyfg
+ * @author Victoria
  */
 public class TpvJpaController implements Serializable {
 

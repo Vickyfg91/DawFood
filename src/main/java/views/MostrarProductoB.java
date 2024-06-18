@@ -15,12 +15,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import static views.MostrarProducto.crearListas;
 
 /**
  *
  * @author vickyfg
  */
-public class MostrarProducto extends javax.swing.JDialog {
+public class MostrarProductoB extends javax.swing.JDialog {
 
     private List<Productos> listaComida = new ArrayList<>();
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
@@ -33,15 +34,15 @@ public class MostrarProducto extends javax.swing.JDialog {
     /**
      * Creates new form MostrarProducto
      */
-    public MostrarProducto(Cliente parent, boolean modal) {
-        super(parent, modal);
+    public MostrarProductoB(Cliente parent, boolean model) {
+        super(parent, model);
         initComponents();
         cliente = parent;
-        listaComida = crearListas().stream()
-                .filter(p -> p.getIdTipo().getCategoria().equalsIgnoreCase("comida"))
-                .collect(Collectors.toList());
-        mt.cargarDatosJTable(jTable1, "comida", listaComida);
+        mt.cargarDatosJTable(jTable1, "bebida", listaComida);
         setLocationRelativeTo(null);
+        listaComida = crearListas().stream()
+                .filter(p -> p.getIdTipo().getCategoria().equalsIgnoreCase("bebida"))
+                .collect(Collectors.toList());
     }
 
     public List<Productos> getLista() {
@@ -145,13 +146,13 @@ public class MostrarProducto extends javax.swing.JDialog {
 
         jButton3.setBackground(new java.awt.Color(246, 235, 198));
         jButton3.setForeground(new java.awt.Color(0, 0, 0));
-        jButton3.setText("Calcular");
+        jButton3.setText("Calcular IVA");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 530, 100, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 550, 120, 30));
 
         jSpinnerCantidad.setModel(new javax.swing.SpinnerNumberModel(1, null, null, 1));
         getContentPane().add(jSpinnerCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 510, 110, -1));

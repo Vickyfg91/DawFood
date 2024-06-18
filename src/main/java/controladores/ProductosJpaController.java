@@ -6,7 +6,6 @@ package controladores;
 
 import controladores.exceptions.IllegalOrphanException;
 import controladores.exceptions.NonexistentEntityException;
-import controladores.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -20,10 +19,11 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author vickyfg
+ * @author Victoria
  */
 public class ProductosJpaController implements Serializable {
 
@@ -36,7 +36,7 @@ public class ProductosJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Productos productos) throws PreexistingEntityException, Exception {
+    public void create(Productos productos) {
         if (productos.getDetalleTicketCollection() == null) {
             productos.setDetalleTicketCollection(new ArrayList<DetalleTicket>());
         }
@@ -70,11 +70,6 @@ public class ProductosJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findProductos(productos.getIdProducto()) != null) {
-                throw new PreexistingEntityException("Productos " + productos + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -152,7 +147,33 @@ public class ProductosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+     public void restarInventario(Productos productos, int cantidadARestar) throws IllegalOrphanException, NonexistentEntityException, Exception {
+        EntityManager em = null;
+      try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            Productos persistentProductos = em.find(Productos.class, productos.getIdProducto());
+            persistentProductos.setStockProducto(persistentProductos.getStockProducto() - cantidadARestar);
+            productos = em.merge(productos);
+            
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            String msg = ex.getLocalizedMessage();
+            if (msg == null || msg.length() == 0) {
+                Integer id = productos.getIdProducto();
+                if (findProductos(id) == null) {
+                    throw new NonexistentEntityException("El producto con la id  " + id + " no existe.");
+                }
+            }
+            throw ex;
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+     }
+     
+    public void destroy(Integer id, java.awt.Component parent) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -162,7 +183,7 @@ public class ProductosJpaController implements Serializable {
                 productos = em.getReference(Productos.class, id);
                 productos.getIdProducto();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The productos with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("Producto " + id + " no encontrado.", enfe);
             }
             List<String> illegalOrphanMessages = null;
             Collection<DetalleTicket> detalleTicketCollectionOrphanCheck = productos.getDetalleTicketCollection();
@@ -170,7 +191,7 @@ public class ProductosJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Productos (" + productos + ") cannot be destroyed since the DetalleTicket " + detalleTicketCollectionOrphanCheckDetalleTicket + " in its detalleTicketCollection field has a non-nullable productos field.");
+                illegalOrphanMessages.add("No se puede borrar este producto (" + productos + ") está incluido en un ticket " + detalleTicketCollectionOrphanCheckDetalleTicket + " in its detalleTicketCollection field has a non-nullable productos field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -182,12 +203,14 @@ public class ProductosJpaController implements Serializable {
             }
             em.remove(productos);
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(parent, "Producto eliminado", "DawFood", JOptionPane.INFORMATION_MESSAGE);
         } finally {
             if (em != null) {
                 em.close();
             }
         }
     }
+    
 
     public List<Productos> findProductosEntities() {
         return findProductosEntities(true, -1, -1);
@@ -234,5 +257,6 @@ public class ProductosJpaController implements Serializable {
             em.close();
         }
     }
+    
     
 }

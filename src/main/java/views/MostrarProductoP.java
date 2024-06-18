@@ -20,27 +20,21 @@ import javax.swing.JTable;
  *
  * @author vickyfg
  */
-public class MostrarProducto extends javax.swing.JDialog {
+public class MostrarProductoP extends javax.swing.JDialog {
 
     private List<Productos> listaComida = new ArrayList<>();
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
     private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(emf);
     private Carrito carrito = Carrito.getCarrito();
     private Productos productoSeleccionado;
-    private Cliente cliente;
-    private ModeloTabla mt = new ModeloTabla();
 
     /**
      * Creates new form MostrarProducto
      */
-    public MostrarProducto(Cliente parent, boolean modal) {
-        super(parent, modal);
+    public MostrarProductoP(Cliente parent, boolean model) {
+        super(parent, model);
         initComponents();
-        cliente = parent;
-        listaComida = crearListas().stream()
-                .filter(p -> p.getIdTipo().getCategoria().equalsIgnoreCase("comida"))
-                .collect(Collectors.toList());
-        mt.cargarDatosJTable(jTable1, "comida", listaComida);
+        cargarDatosJTable();
         setLocationRelativeTo(null);
     }
 
@@ -54,6 +48,32 @@ public class MostrarProducto extends javax.swing.JDialog {
 
     public static List<Productos> crearListas() {
         return proJpa.findProductosEntities();
+    }
+
+    private void cargarDatosJTable() {
+
+        //Obtener la lista de productos filtrados por tipo 
+        listaComida = crearListas().stream()
+                .filter(p -> p.getIdTipo().getCategoria().equalsIgnoreCase("postre"))
+                .collect(Collectors.toList());
+
+        // Se crea el modelo de datos que contendrá el JTable
+        // Este modelo se rellena de datos y luego se asocia al JTable
+        ModeloTabla modelo = new ModeloTabla(false);
+
+        for (Productos producto : listaComida) {
+            Object[] fila = new Object[7];
+            fila[0] = producto.getIdProducto();
+            fila[1] = producto.getNombreProducto();
+            fila[2] = producto.getPrecioProducto();
+            fila[3] = producto.getIvaProducto();
+            fila[4] = producto.getStockProducto();
+            fila[5] = producto.getIdTipo().getCategoria();
+            fila[6] = producto.getDescripcionProducto();
+            modelo.addRow(fila);
+        }
+
+        jTable1.setModel(modelo);
     }
 
     public JTable getJTable() {
@@ -120,7 +140,7 @@ public class MostrarProducto extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Precio: ");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 550, 110, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 540, 110, -1));
 
         jTextFieldPrecio.setEditable(false);
         jTextFieldPrecio.setBackground(new java.awt.Color(246, 235, 198));
@@ -131,7 +151,7 @@ public class MostrarProducto extends javax.swing.JDialog {
                 jTextFieldPrecioActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextFieldPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 550, 110, -1));
+        getContentPane().add(jTextFieldPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 540, 110, -1));
 
         jButton1.setBackground(new java.awt.Color(246, 235, 198));
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
@@ -145,16 +165,16 @@ public class MostrarProducto extends javax.swing.JDialog {
 
         jButton3.setBackground(new java.awt.Color(246, 235, 198));
         jButton3.setForeground(new java.awt.Color(0, 0, 0));
-        jButton3.setText("Calcular");
+        jButton3.setText("Calcular IVA");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 530, 100, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 540, 110, 30));
 
         jSpinnerCantidad.setModel(new javax.swing.SpinnerNumberModel(1, null, null, 1));
-        getContentPane().add(jSpinnerCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 510, 110, -1));
+        getContentPane().add(jSpinnerCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 490, 110, -1));
 
         jButtonVCarrito.setBackground(new java.awt.Color(110, 167, 176));
         jButtonVCarrito.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -182,13 +202,13 @@ public class MostrarProducto extends javax.swing.JDialog {
         ));
         jScrollTablaCompleta.setViewportView(jTable1);
 
-        getContentPane().add(jScrollTablaCompleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+        getContentPane().add(jScrollTablaCompleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, 390));
 
         jLabel2.setBackground(new java.awt.Color(255, 153, 153));
         jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Cantidad:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 510, 110, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 490, 110, -1));
 
         jButton2.setBackground(new java.awt.Color(110, 167, 176));
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -221,7 +241,7 @@ public class MostrarProducto extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         try {
-            final int porcentaje = 100;
+            final int obIva = 100;
             int fila = jTable1.getSelectedRow();
             if (fila == -1) {
                 throw new IllegalArgumentException("Debe seleccionar un producto para calcular el precio.");
@@ -243,7 +263,7 @@ public class MostrarProducto extends javax.swing.JDialog {
                 throw new IllegalArgumentException("No queda suficiente producto de lo que has elegido. Máximo " + stock);
             }
             carrito.agregarProducto(productoSeleccionado, cantidad);
-            double precioTotal = (((productoSeleccionado.getPrecioProducto() * productoSeleccionado.getIvaProducto()) / porcentaje) + productoSeleccionado.getPrecioProducto()) * cantidad;
+            double precioTotal = (((productoSeleccionado.getPrecioProducto() * productoSeleccionado.getIvaProducto()) / obIva) + productoSeleccionado.getPrecioProducto()) * cantidad;
             jTextFieldPrecio.setText(String.format("%.2f", precioTotal));
             carrito.imprimirCarrito();
         } catch (IllegalArgumentException e) {

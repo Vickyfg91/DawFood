@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author vickyfg
+ * @author Victoria
  */
 @Embeddable
 public class DetalleTicketPK implements Serializable {
