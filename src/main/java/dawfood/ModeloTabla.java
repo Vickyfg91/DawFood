@@ -6,6 +6,7 @@ package dawfood;
 
 import entidades.Productos;
 import entidades.Tickets;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JTable;
@@ -30,7 +31,7 @@ public class ModeloTabla extends DefaultTableModel {
     //Constructor para la tabla comida
     public ModeloTabla(boolean porProductos) {
         if (porProductos) {
-            String[] columnNames = {"id_ticket", "Fecha", "Hora", "Subtotal", "Total", "cod_Transaccion", "TPV" };
+            String[] columnNames = {"id_ticket", "Fecha", "Hora", "Subtotal", "Total", "cod_Transaccion", "TPV"};
             this.setColumnIdentifiers(columnNames);
         } else {
             // En caso de no ser específico de comida, usar el constructor general
@@ -48,7 +49,7 @@ public class ModeloTabla extends DefaultTableModel {
         // En nuestro caso ninguna celda se edita
         return false;
     }
-    
+
 // Método para cargar datos en un JTable
     public void cargarDatosJTable(JTable tabla, String tipoProducto, List<Productos> listaComida) {
         // Filtrar la lista de productos por tipo
@@ -75,26 +76,31 @@ public class ModeloTabla extends DefaultTableModel {
         // Asignar el modelo al JTable
         tabla.setModel(modelo);
     }
-    
+
     public void cargarDatosJTicket(JTable tabla, List<Tickets> listaTickets) {
+
         // Filtrar la lista de productos por tipo
         listaTickets = listaTickets.stream()
-            .sorted((t1, t2) -> t2.getFechaTicket().compareTo(t1.getFechaTicket()))
-            .collect(Collectors.toList());
+                .sorted((t1, t2) -> t2.getFechaTicket().compareTo(t1.getFechaTicket()))
+                .collect(Collectors.toList());
 
         // Crear el modelo de datos
         ModeloTabla modelo = new ModeloTabla(true);
+
+        // Formateadores para fecha y hora
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
 
         // Rellenar el modelo con datos
         for (Tickets tickes : listaTickets) {
             Object[] fila = new Object[7];
             fila[0] = tickes.getIdTicket();
-            fila[1] = tickes.getFechaTicket();
-            fila[2] = tickes.getHoraTicket();
+            fila[1] = formatoFecha.format(tickes.getFechaTicket());
+            fila[2] = formatoHora.format(tickes.getHoraTicket());
             fila[3] = tickes.getSubtotalProducto();
             fila[4] = tickes.getTotalTicket();
             fila[5] = tickes.getCodTransaccion();
-            fila[6] = tickes.getIdTpv();
+            fila[6] = tickes.getIdTpv().getCiudad();
             modelo.addRow(fila);
         }
 

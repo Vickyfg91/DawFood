@@ -117,7 +117,7 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
 
         jComboBoxIva.setBackground(new java.awt.Color(255, 153, 153));
         jComboBoxIva.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBoxIva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "4", "10", "21" }));
+        jComboBoxIva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "21" }));
         jPanel1.add(jComboBoxIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 190, -1));
 
         jComboBoxTipoPro.setBackground(new java.awt.Color(255, 153, 153));

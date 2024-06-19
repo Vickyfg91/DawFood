@@ -42,12 +42,6 @@ public class EditarProducto extends javax.swing.JDialog {
         //Obtengo la fila seleccionada y luego el id de esa fila
         int fila = filaSeleccionadaJTable(admin.getJTable());
 
-        //Verifico que haya una fila seleccionada
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Para editar un producto debe seleccionar un producto de la lista", "DawFood", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         // Obtengo los valores de la fila seleccionada
         int idProducto = (int) admin.getJTable().getValueAt(fila, 0);
         producto = admin.buscarPordId(idProducto);
@@ -145,7 +139,7 @@ public class EditarProducto extends javax.swing.JDialog {
 
         jComboBoxIva.setBackground(new java.awt.Color(251, 234, 198));
         jComboBoxIva.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBoxIva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "4", "10", "21" }));
+        jComboBoxIva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "21" }));
         jPanel1.add(jComboBoxIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 240, 190, -1));
 
         jLabel6.setBackground(new java.awt.Color(153, 153, 153));
@@ -187,7 +181,6 @@ public class EditarProducto extends javax.swing.JDialog {
         jSpinnerStock.setOpaque(true);
         jPanel1.add(jSpinnerStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 190, -1));
 
-        jTextAreaDescripcion.setEditable(false);
         jTextAreaDescripcion.setBackground(new java.awt.Color(251, 234, 198));
         jTextAreaDescripcion.setColumns(20);
         jTextAreaDescripcion.setRows(5);

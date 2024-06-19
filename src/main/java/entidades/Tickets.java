@@ -32,6 +32,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "tickets")
 @NamedQueries({
+    //consultas a la bd con metodos predefinidos que se encuentra en el JPA 
     @NamedQuery(name = "Tickets.findAll", query = "SELECT t FROM Tickets t"),
     @NamedQuery(name = "Tickets.findByIdTicket", query = "SELECT t FROM Tickets t WHERE t.idTicket = :idTicket"),
     @NamedQuery(name = "Tickets.findByFechaTicket", query = "SELECT t FROM Tickets t WHERE t.fechaTicket = :fechaTicket"),
@@ -64,10 +65,12 @@ public class Tickets implements Serializable {
     @Basic(optional = false)
     @Column(name = "cod_transaccion")
     private int codTransaccion;
+    //un ticket esta relacionado con muchos detalleticket(En un ticket aparecen muchos detalle ticket pero en un detalle ticket solo aparece un tickets)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tickets")
     private Collection<DetalleTicket> detalleTicketCollection;
     @JoinColumn(name = "id_tpv", referencedColumnName = "id_tpv")
-    @ManyToOne(optional = false)
+    //muchos objeto tickets estan relacionados solo con un tpv(el tpv tiene muchos tickes pero los tickets solo tiene un tpv)
+    @ManyToOne(optional = false)//(false porque cada ticket debe tener un tpv)
     private Tpv idTpv;
 
     public Tickets() {

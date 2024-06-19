@@ -128,15 +128,20 @@ public class GenerarTickets {
 
     public static String consultaTicket(int idTic){
         Tickets ticket = ticketContr.findTickets(idTic);
+        DecimalFormat df = new DecimalFormat("#.00");
+        /*aqui hay que añadir las variables de precio total, iva total, fecha y hora actual formateada*/
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Madrid"));
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
         if (ticket == null) {
-            return "Ticket no encontrado.";
+            return "Ticket no encontrado";
         }
         
         List<DetalleTicket> detallesTicket = detallContr.findDetalleTicketEntities();
         StringBuilder sb = new StringBuilder();
         sb.append("Ticket ID: ").append(ticket.getIdTicket()).append("\n");
-        sb.append("Fecha: ").append(ticket.getFechaTicket()).append("\n");
-        sb.append("Hora: ").append(ticket.getHoraTicket()).append("\n");
+        sb.append("Fecha: ").append(formatoFecha.format((ticket.getFechaTicket()))).append("\n");
+        sb.append("Hora: ").append(formatoHora.format((ticket.getHoraTicket()))).append("\n");
         sb.append("Subtotal: ").append(ticket.getSubtotalProducto()).append("\n");
         sb.append("Total: ").append(ticket.getTotalTicket()).append("\n");
         sb.append("Código de Transacción: ").append(ticket.getCodTransaccion()).append("\n");

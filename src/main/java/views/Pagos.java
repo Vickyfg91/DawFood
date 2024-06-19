@@ -80,7 +80,6 @@ public class Pagos extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jPasswordFieldCvv = new javax.swing.JPasswordField();
         jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -172,17 +171,6 @@ public class Pagos extends javax.swing.JDialog {
         });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 640, 100, -1));
 
-        jButton1.setBackground(new java.awt.Color(110, 167, 176));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(251, 234, 198));
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 530, 110, 50));
-
         jButton3.setBackground(new java.awt.Color(110, 167, 176));
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton3.setForeground(new java.awt.Color(251, 234, 198));
@@ -192,7 +180,7 @@ public class Pagos extends javax.swing.JDialog {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 530, 110, 50));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 520, 240, 50));
 
         jLabel1.setBackground(new java.awt.Color(246, 235, 198));
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -213,12 +201,8 @@ public class Pagos extends javax.swing.JDialog {
         } catch (Exception ex) {
             Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.dispose();
+        // this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // detiene el proceso y va a la ventana cliente 
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void validarDatosTarjeta() throws Exception {
         String numTarjeta = jTextField4Digitos.getText();
@@ -337,10 +321,12 @@ public class Pagos extends javax.swing.JDialog {
 
             
             carrito.limpiarCarrito();
+            
+            new Principal().setVisible(true);
 
             
-            Cliente parent = (Cliente) this.getParent();
-            new VerCarrito(parent, true).setVisible(true);
+//            Cliente parent = (Cliente) this.getParent();
+//            new VerCarrito(parent, true).setVisible(true);
             this.dispose();
         } else {
             
@@ -351,7 +337,6 @@ public class Pagos extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabe;

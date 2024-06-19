@@ -27,6 +27,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "productos")
 @NamedQueries({
+    //consultas a la bd con metodos predefinidos que se encuentra en el JPA 
     @NamedQuery(name = "Productos.findAll", query = "SELECT p FROM Productos p"),
     @NamedQuery(name = "Productos.findByIdProducto", query = "SELECT p FROM Productos p WHERE p.idProducto = :idProducto"),
     @NamedQuery(name = "Productos.findByNombreProducto", query = "SELECT p FROM Productos p WHERE p.nombreProducto = :nombreProducto"),
@@ -56,9 +57,11 @@ public class Productos implements Serializable {
     private int stockProducto;
     @Column(name = "descripcion_producto")
     private String descripcionProducto;
+    //Un producto está relacionado con muchos DetalleTicket (en un producto aparecen muchos detalle de tickets, pero en un DetalleTicket solo aparece un producto)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productos")
     private Collection<DetalleTicket> detalleTicketCollection;
     @JoinColumn(name = "id_tipo", referencedColumnName = "id_tipo")
+    // Un producto está relacionado con un tipo de producto (muchos productos pueden pertenecer a un tipo de producto, pero un producto solo puede pertenecer a un tipo)
     @ManyToOne(optional = false)
     private TiposProductos idTipo;
 

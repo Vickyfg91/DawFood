@@ -33,12 +33,12 @@ public class Administrador extends javax.swing.JDialog {
     public Administrador(Principal parent, boolean model) {
         super(parent, model);
         principal = parent;
-        lista = prodContro.findProductosEntities();
         initComponents();
         cargarDatosJTable();
         setLocationRelativeTo(null);
     }
 
+    
     public List<Productos> getLista() {
         return lista;
     }
@@ -54,10 +54,10 @@ public class Administrador extends javax.swing.JDialog {
 
 
     // Este método inserta los datos de la lista en el jtable
-    private void cargarDatosJTable() {
-
+    public void cargarDatosJTable() {
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asocia al JTable
+        lista = prodContro.findProductosEntities();
         ModeloTabla modelo = new ModeloTabla();
 
         // Array de object con el número de columnas del jtable
@@ -77,7 +77,6 @@ public class Administrador extends javax.swing.JDialog {
             modelo.addRow(fila);
         }
         // Agregamos esta fila a nuestro modelo
-        modelo.addRow(fila);
         // Al finalizar el bucle el modelo tendrá tantas filas como nuestra lista
 
         // Decimos al JTable el modelo a usar
@@ -220,6 +219,7 @@ public class Administrador extends javax.swing.JDialog {
 
     private void jButton2ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformedGestion
         new CrearNuevoProducto(this, true).setVisible(true);
+        cargarDatosJTable();
         
 
     }//GEN-LAST:event_jButton2ActionPerformedGestion
@@ -235,7 +235,15 @@ public class Administrador extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformedGestion
-         new EditarProducto(this, true).setVisible(true);
+                //Verifico que haya una fila seleccionada
+        int filaSeleccionada = jTable1.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Para editar un producto debe seleccionar un producto de la lista", "DawFood", JOptionPane.ERROR_MESSAGE);
+            return;
+        }else{ 
+        new EditarProducto(this, true).setVisible(true);
+        cargarDatosJTable();
+        }
     }//GEN-LAST:event_jButton4ActionPerformedGestion
 
 

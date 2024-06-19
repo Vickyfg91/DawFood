@@ -22,6 +22,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "detalle_ticket")
 @NamedQueries({
+    ////consultas a la bd con metodos predefinidos que se encuentra en el JPA 
     @NamedQuery(name = "DetalleTicket.findAll", query = "SELECT d FROM DetalleTicket d"),
     @NamedQuery(name = "DetalleTicket.findByIdProducto", query = "SELECT d FROM DetalleTicket d WHERE d.detalleTicketPK.idProducto = :idProducto"),
     @NamedQuery(name = "DetalleTicket.findByIdTicket", query = "SELECT d FROM DetalleTicket d WHERE d.detalleTicketPK.idTicket = :idTicket"),
@@ -35,9 +36,11 @@ public class DetalleTicket implements Serializable {
     @Column(name = "cantidad_producto")
     private int cantidadProducto;
     @JoinColumn(name = "id_producto", referencedColumnName = "id_producto", insertable = false, updatable = false)
+    //La entidad DetalleTicket tiene una relacion muchos a uno quiere decir que un detalle ticket tiene solo un producto y solo un ticket 
     @ManyToOne(optional = false)
     private Productos productos;
     @JoinColumn(name = "id_ticket", referencedColumnName = "id_ticket", insertable = false, updatable = false)
+    //Indica una relación de muchos a uno con la entidad Tickets, lo que significa que cada DetalleTicket debe estar asociado con un ticket y que esta asociación es obligatoria
     @ManyToOne(optional = false)
     private Tickets tickets;
 

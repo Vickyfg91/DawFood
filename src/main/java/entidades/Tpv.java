@@ -28,6 +28,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "tpv")
 @NamedQueries({
+     //consultas a la bd con metodos predefinidos que se encuentra en el JPA 
     @NamedQuery(name = "Tpv.findAll", query = "SELECT t FROM Tpv t"),
     @NamedQuery(name = "Tpv.findByIdTpv", query = "SELECT t FROM Tpv t WHERE t.idTpv = :idTpv"),
     @NamedQuery(name = "Tpv.findByCiudad", query = "SELECT t FROM Tpv t WHERE t.ciudad = :ciudad"),
@@ -52,6 +53,7 @@ public class Tpv implements Serializable {
     @Column(name = "tpv_hora")
     @Temporal(TemporalType.TIME)
     private Date tpvHora;
+    // Un TPV está relacionado con muchos tickets (un TPV puede tener muchos tickets asociados, pero cada ticket solo tiene un TPV)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTpv")
     private Collection<Tickets> ticketsCollection;
 
