@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -34,13 +33,9 @@ import javax.persistence.Persistence;
 public class GenerarTickets {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
-    private static final EntityManager em = emf.createEntityManager();
     private static final TicketsJpaController ticketContr = new TicketsJpaController(emf);
     private static final DetalleTicketJpaController detallContr = new DetalleTicketJpaController(emf);
     private static final ProductosJpaController prodContr = new ProductosJpaController(emf);
-   // private double importeTotal;
-   // private double importeSubTotal;
-    
 
     //crear un nuevo ticket en la bbdd
     public static void GenerarTicket(Tickets ticket) {
@@ -89,7 +84,7 @@ public class GenerarTickets {
         return detallesTicket;
     }
     
-    public static String generarTextoTicket(int idTicket, Date fechaTicket, Date horaTicket, double importeTotal, int codTransaccion, Carrito carrito) {
+    public static String generarTextoTicket(int idTicket, Date fechaTicket, Date horaTicket, double importeSubTotal, double importeTotal, int codTransaccion, Carrito carrito) {
         StringBuilder sb = new StringBuilder();
         DecimalFormat df = new DecimalFormat("#.00");
         /*aqui hay que añadir las variables de precio total, iva total, fecha y hora actual formateada*/
@@ -97,30 +92,30 @@ public class GenerarTickets {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
         sb.append("************************************************************\n");
-        sb.append("*********************DawFood*********************\n");
+        sb.append("************************DawFood************************\n");
         sb.append("************************************************************\n");
         sb.append("\n");
         sb.append("Ticket ID: ").append(idTicket).append("\n");
         sb.append("Código de Transacción: ").append(codTransaccion).append("\n");
-        sb.append(formatoFecha.format(fechaTicket)).append("\t");
-        sb.append(formatoHora.format(horaTicket)).append("\n");
+        sb.append("Fecha: ").append(formatoFecha.format(fechaTicket)).append(" ").append("\t");
+        sb.append("Hora: ").append(" ").append(formatoHora.format(horaTicket)).append("\n");
         sb.append("-----------------------------------------------------\n");
         sb.append("\n");
         sb.append("\n");
-        sb.append("Cantidad \t ").append(" Producto \t ").append("Precio \t ").append("Subtotal \n");
+        sb.append("Cantidad \t ").append(" Producto \t ").append("           ").append("              ").append("Precio      \t ").append("Subtotal \n");
         for (Map.Entry<Productos, Integer> entry : carrito.getProductosCarrito().entrySet()) {
             Productos producto = entry.getKey();
             int cantidad = entry.getValue();
             sb.append(cantidad).append(" \t ")
-                    .append(producto.getNombreProducto()).append(" \t ")
-                    .append(producto.getPrecioProducto()).append(" \t ")
-                    .append(producto.getPrecioProducto() * cantidad).append("\n");
+                    .append("                ").append(producto.getNombreProducto()).append(" \t ")
+                    .append(producto.getPrecioProducto()).append("     ").append(" \t ")
+                    .append(producto.getPrecioProducto() * cantidad).append("       ").append("\n");
         }
         sb.append("\n");
-        sb.append("-----------------------------------------------------------\n");
+        sb.append("Total a Pagar: ").append(df.format(importeSubTotal)).append("€\n");
         sb.append("Total a Pagar + IVA: ").append(df.format(importeTotal)).append("€\n");
         sb.append("************************************************************\n");
-        sb.append("*********************Gracias por su compra*********************\n");
+        sb.append("*****************Gracias por su compra*****************\n");
         sb.append("************************************************************\n");
 
         return sb.toString();
@@ -142,8 +137,8 @@ public class GenerarTickets {
         sb.append("Ticket ID: ").append(ticket.getIdTicket()).append("\n");
         sb.append("Fecha: ").append(formatoFecha.format((ticket.getFechaTicket()))).append("\n");
         sb.append("Hora: ").append(formatoHora.format((ticket.getHoraTicket()))).append("\n");
-        sb.append("Subtotal: ").append(ticket.getSubtotalProducto()).append("\n");
-        sb.append("Total: ").append(ticket.getTotalTicket()).append("\n");
+        sb.append("Subtotal: ").append(df.format(ticket.getSubtotalProducto())).append("\n");
+        sb.append("Total: ").append(df.format(ticket.getTotalTicket())).append("\n");
         sb.append("Código de Transacción: ").append(ticket.getCodTransaccion()).append("\n");
         sb.append("Detalles del Ticket:\n");
         sb.append("-----------------------------------------------------\n");

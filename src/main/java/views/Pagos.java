@@ -201,7 +201,6 @@ public class Pagos extends javax.swing.JDialog {
         } catch (Exception ex) {
             Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        // this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void validarDatosTarjeta() throws Exception {
@@ -311,6 +310,7 @@ public class Pagos extends javax.swing.JDialog {
                     ticket.getIdTicket(),
                     ticket.getFechaTicket(),
                     ticket.getHoraTicket(),
+                    importeSubTotal,
                     importeTotal,
                     ticket.getCodTransaccion(),
                     carrito

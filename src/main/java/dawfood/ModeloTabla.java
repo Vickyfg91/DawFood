@@ -81,7 +81,7 @@ public class ModeloTabla extends DefaultTableModel {
 
         // Filtrar la lista de productos por tipo
         listaTickets = listaTickets.stream()
-                .sorted((t1, t2) -> t2.getFechaTicket().compareTo(t1.getFechaTicket()))
+                .sorted((t1, t2) -> t2.getIdTicket().compareTo(t1.getIdTicket()))
                 .collect(Collectors.toList());
 
         // Crear el modelo de datos

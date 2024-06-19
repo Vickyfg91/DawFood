@@ -98,7 +98,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformedGestion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformedGestion
         // TODO add your handling code here:
-        new Administrador(this, true).setVisible(true);
+        new Gestion(this, true).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformedGestion
 
     private void jButton2ActionPerformedCliente(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformedCliente

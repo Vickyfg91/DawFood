@@ -24,7 +24,7 @@ public class CrearNuevoProducto extends javax.swing.JDialog {
     /**
      * Creates new form CrearNuevoProducto
      */
-    public CrearNuevoProducto(Administrador parent, boolean modal) {
+    public CrearNuevoProducto(Gestion parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);

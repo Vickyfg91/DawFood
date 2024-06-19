@@ -20,7 +20,7 @@ import javax.swing.JTable;
  *
  * @author vickyfg
  */
-public class Administrador extends javax.swing.JDialog {
+public class Gestion extends javax.swing.JDialog {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
     private static final ProductosJpaController prodContro = new controladores.ProductosJpaController(emf);
@@ -30,7 +30,7 @@ public class Administrador extends javax.swing.JDialog {
     /**
      * Creates new form Administrador
      */
-    public Administrador(Principal parent, boolean model) {
+    public Gestion(Principal parent, boolean model) {
         super(parent, model);
         principal = parent;
         initComponents();

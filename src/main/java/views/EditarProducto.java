@@ -18,7 +18,7 @@ import javax.swing.JTable;
  */
 public class EditarProducto extends javax.swing.JDialog {
 
-    private Administrador admin;
+    private Gestion admin;
     private Productos producto;
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_DawFoodVicky_jar_1.0-SNAPSHOTPU");
     private static final ProductosJpaController proJpa = new controladores.ProductosJpaController(emf);
@@ -26,7 +26,7 @@ public class EditarProducto extends javax.swing.JDialog {
     /**
      * Creates new form EditarProducto
      */
-    public EditarProducto(Administrador parent, boolean modal) {
+    public EditarProducto(Gestion parent, boolean modal) {
 
         super(parent, modal);
         admin = parent;
@@ -57,7 +57,7 @@ public class EditarProducto extends javax.swing.JDialog {
 
         // Guarda producto seleccionado
         //Aqui se usa buscarporid que es un metodo NamedQuery
-        this.producto = Administrador.buscarPordId(idProducto);
+        this.producto = Gestion.buscarPordId(idProducto);
     }
 
     //Método que recibe un producto y usa el método edit para modificarlo
